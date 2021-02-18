@@ -1,0 +1,77 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
+
+@import 'variables';
+
+html,
+body {
+    font-family: $montserrat;
+}
+
+.admin-nav {
+    top: 0;
+    right: 0;
+    width: calc(100% - 2rem);
+    margin-left: 2rem;
+    margin-right: 1rem;
+    margin-top: .5rem;
+
+    .admin-nav-left,
+    .admin-nav-right {
+        flex-basis: 1rem;
+    }
+}
+
+.tabs {
+    .tab {
+        flex-grow: 1;
+        text-align: center;
+        position: relative;
+        font-weight: 500;
+        &.active {
+            color: red;
+            &:after {
+                display: block;
+            }
+        }
+        &:after {
+            display: none;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: green;
+        }
+    }
+}
+
+@layer components {
+    .input-group {
+        display: flex;
+        flex-direction: column;
+    }
+    .textbox {
+        @apply rounded border-gray-300 p-2 text-base;
+    }
+    .btn {
+        @apply rounded py-3.5 px-6 text-white;
+        background: $indigo;
+        transition: all .5s;
+        -webkit-box-shadow: inset 0 -3px 0 0 rgb(34 41 47 / 20%);
+        box-shadow: inset 0 -3px 0 0 rgb(34 41 47 / 20%);
+        &:hover {
+            background-color: #887ef2;
+        }
+    }
+}
+
+@screen sm {
+    .textbox {
+        font-size: .8rem;
+    }
+}
