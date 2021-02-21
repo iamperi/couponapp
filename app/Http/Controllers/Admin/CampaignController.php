@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants;
-use App\Events\CampaignCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCampaignRequest;
 use App\Models\Campaign;
-use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class CampaignController extends Controller
 {
@@ -16,5 +15,17 @@ class CampaignController extends Controller
         Campaign::create($request->validated());
 
         return redirect()->back();
+    }
+
+    public function deactivate(Campaign $campaign)
+    {
+        if(!auth()->user()->can(Constants::EDIT_CAMPAIGNS)) {
+            abort(403);
+        }
+
+        $campaign->ends_at = Carbon::now();
+        $campaign->save();
+
+        return redirect(route('admin.index'));
     }
 }

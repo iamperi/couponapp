@@ -19,6 +19,21 @@ class Campaign extends Model
         'created' => CampaignCreated::class
     ];
 
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
+
+    public function usedCoupons()
+    {
+        return $this->coupons()->whereNotNull('used_at')->whereNotNull('user_id')->get();
+    }
+
+    public function usedCouponCount()
+    {
+        return $this->usedCoupons()->count();
+    }
+
     public function setPrefixAttribute($value)
     {
         $this->attributes['prefix'] = strtoupper($value);
@@ -26,14 +41,20 @@ class Campaign extends Model
 
     public function setStartsAtAttribute($value)
     {
-        $this->attributes['starts_at'] = Carbon::createFromFormat('d/m/Y H:i', $value);
+        $startsAt = $value;
+        if(!empty($value) && !is_a($value, Carbon::class)) {
+            $startsAt = Carbon::createFromFormat('d/m/Y H:i', $value);
+        }
+        $this->attributes['starts_at'] = $startsAt;
     }
 
     public function setEndsAtAttribute($value)
     {
-        if(!empty($value)) {
-            $this->attributes['ends_at'] = Carbon::createFromFormat('d/m/Y H:i', $value);
+        $endsAt = $value;
+        if(!empty($value) && !is_a($value, Carbon::class)) {
+            $endsAt = Carbon::createFromFormat('d/m/Y H:i', $value);
         }
+        $this->attributes['ends_at'] = $endsAt;
     }
 
     public function scopeActive($query)

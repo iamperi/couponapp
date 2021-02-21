@@ -156,6 +156,26 @@
             <h1>@lang('Active campaigns')</h1>
             <h2>@lang('Citizens will only receive coupons from the active campaign')</h2>
         </div>
+        <div class="card-body">
+            <div class="active-campaigns mt-8">
+            @foreach($activeCampaigns as $campaign)
+                <div class="flex inline-flex flex-col bg-indigo-50 border border-indigo-200 p-6 rounded shadow">
+                    <label class="font-medium">{{ $campaign->name }}</label>
+                    <label>
+                        {{ $campaign->coupon_count }} <span class="lowercase">@lang('Coupons')</span>
+                        ({{ $campaign->usedCouponCount() }} <span class="lowercase">@lang('Used')</span>)
+                    </label>
+                    <label>@lang('Amount'): {{ $campaign->coupon_amount }} €</label>
+                    <label>@lang('Valid for') {{ $campaign->coupon_validity }} <span class="lowercase">@lang('Hours')</span></label>
+                    <form method="POST" action="{{ route('admin.campaigns.deactivate', $campaign) }}">
+                        @csrf
+                        <button class="btn btn-xs btn-red">@lang('Desactivar')</button>
+                    </form>
+                </div>
+            @endforeach
+            </div>
+        </div>
+
     </div>
 
     <div class="card-body">
