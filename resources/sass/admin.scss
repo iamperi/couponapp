@@ -1,7 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
+@import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
 
 @import 'variables';
@@ -26,13 +26,15 @@ body {
 }
 
 .tabs {
+    margin-bottom: 1rem;
     .tab {
         flex-grow: 1;
         text-align: center;
         position: relative;
         font-weight: 500;
+        cursor: pointer;
         &.active {
-            color: red;
+            color: $indigo;
             &:after {
                 display: block;
             }
@@ -44,19 +46,33 @@ body {
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 1px;
-            background: green;
+            height: 2px;
+            background: linear-gradient(30deg,#7367f0,rgba(115,103,240,.5));
+        }
+        label {
+            display: block;
+            margin-bottom: .8rem;
+            cursor: pointer;
         }
     }
 }
 
+.col2 {
+     display: grid;
+}
+
 @layer components {
     .input-group {
-        display: flex;
-        flex-direction: column;
+        @apply flex flex-col my-2;
+        label {
+            @apply text-xs;
+        }
     }
     .textbox {
-        @apply rounded border-gray-300 p-2 text-base;
+        @apply rounded border-gray-300 p-2 text-sm sm:text-base outline-none;
+        &.invalid {
+            @apply border-red-400;
+        }
     }
     .btn {
         @apply rounded py-3.5 px-6 text-white;
@@ -68,10 +84,69 @@ body {
             background-color: #887ef2;
         }
     }
-}
-
-@screen sm {
-    .textbox {
-        font-size: .8rem;
+    .card {
+        @apply rounded shadow-lg bg-white p-6;
+        .card-header {
+            @apply w-full pb-6;
+            .card-title {
+                @apply flex flex-col;
+                h1 {
+                    @apply font-medium;
+                }
+                h2 {
+                    @apply text-xs;
+                }
+            }
+        }
+        .card-body {
+            .responsive-table-wrapper {
+                margin: 0 -1.5rem;
+            }
+        }
+    }
+    .responsive-table-wrapper {
+        @apply overflow-x-auto;
+    }
+    table {
+        @apply w-full px-6;
+        thead {
+            background: #f3f2f7;
+            td {
+                @apply uppercase font-medium;
+            }
+        }
+        td {
+            @apply px-6 py-3 text-xs;
+        }
+    }
+    .form-feedback {
+        @apply text-xs;
+        &.error {
+            @apply text-red-500;
+        }
+    }
+    .textbox-with-span {
+        @apply relative;
+        input {
+            @apply w-full;
+        }
+        span {
+            @apply absolute h-full flex items-center top-0 right-0 px-4 border-t border-b border-r border-gray-300 rounded bg-gray-100 opacity-60;
+        }
+    }
+    .alert {
+        @apply px-6 py-1 rounded;
+        &.alert-error {
+            @apply bg-red-100;
+            label {
+                @apply text-red-600;
+            }
+        }
+        &.alert-success {
+            @apply bg-green-100;
+            label {
+                @apply text-green-600;
+            }
+        }
     }
 }

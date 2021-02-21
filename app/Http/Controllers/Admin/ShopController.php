@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants;
 use App\Http\Controllers\Controller;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,8 +24,17 @@ class ShopController extends Controller
             'password' => 'required|confirmed'
         ]);
 
-        $shop = User::create($validated);
+        $shopUser = User::create(request()->only([
+            'phone', 'email', 'username', 'password'
+        ]));
 
-        $shop->assignRole(Constants::SHOP_ROLE);
+        $shopUser->assignRole(Constants::SHOP_ROLE);
+
+        $shop = Shop::create([
+            'user_id' => $shopUser->id,
+            'name' => request('name')
+        ]);
+
+        $shop->user()->associate($shopUser);
     }
 }

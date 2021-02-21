@@ -1,30 +1,41 @@
 <x-admin-layout>
-    <div x-data="{ tab: 'tab1' }">
-
-        <label>@lang('Hello') {{ auth()->user()->username }}</label>
+    <div x-data="{ tab: window.location.hash.replace('#', '') || localStorage.getItem('tab') }">
 
         <div class="tabs flex items-center">
-            <div class="tab" :class="{'active': tab == 'tab1'}" @click="tab = 'tab1'">
+            @admin
+            <a href="#tab1" class="tab" :class="{'active': tab == 'tab1'}" @click="tab = 'tab1'; localStorage.setItem('tab', 'tab1')">
                 <label>@lang('Shops')</label>
-            </div>
-            <div class="tab" :class="{'active': tab == 'tab2'}" @click="tab = 'tab2'">
+            </a>
+            @endadmin
+            @shop
+            <a href="#tab1" class="tab" :class="{'active': tab == 'tab1'}" @click="tab = 'tab1'; localStorage.setItem('tab', 'tab1')">
+                <label>@lang('Validate coupon')</label>
+            </a>
+            @endshop
+            <a href="#tab2" class="tab" :class="{'active': tab == 'tab2'}" @click="tab = 'tab2'; localStorage.setItem('tab', 'tab2')">
                 <label>@lang('Historic')</label>
-            </div>
-            <div class="tab" :class="{'active': tab == 'tab3'}" @click="tab = 'tab3'">
+            </a>
+            @admin
+            <a href="#tab3" class="tab" :class="{'active': tab == 'tab3'}" @click="tab = 'tab3'; localStorage.setItem('tab', 'tab3')">
                 <label>@lang('Campaigns')</label>
-            </div>
+            </a>
+            @endadmin
         </div>
 
         <div x-show="tab == 'tab1'">
-            @include('admin.includes.shops-tab')
+            @admin
+                @include('admin.includes.shops-tab')
+            @else
+                @include('admin.includes.validate-coupon-tab')
+            @endadmin
         </div>
 
         <div x-show="tab == 'tab2'">
-            Historic content
+            @include('admin.includes.historic-tab')
         </div>
 
         <div x-show="tab == 'tab3'">
-            Campaigns content
+            @include('admin.includes.campaigns-tab')
         </div>
     </div>
 </x-admin-layout>

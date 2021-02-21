@@ -22,11 +22,19 @@ class PermissionSeeder extends Seeder
         $accessAdmin = Permission::create(['name' => Constants::ACCESS_ADMIN]);
         $createShops = Permission::create(['name' => Constants::CREATE_SHOPS]);
         $createCampaigns = Permission::create(['name' => Constants::CREATE_CAMPAIGNS]);
+        $validateCoupons = Permission::create(['name' => Constants::VALIDATE_COUPONS]);
+
 
         $admin->syncPermissions([
             $accessAdmin,
             $createShops,
             $createCampaigns
         ]);
+
+        $shop->syncPermissions([
+            $accessAdmin,
+            $validateCoupons
+        ]);
+
     }
 }

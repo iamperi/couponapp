@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Constants;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Blade::if('admin', function () {
+            return auth()->user()->hasRole(Constants::ADMIN_ROLE);
+        });
+
+        Blade::if('shop', function() {
+            return auth()->user()->hasRole(Constants::SHOP_ROLE);
+        });
     }
 }

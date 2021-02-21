@@ -29,7 +29,7 @@ class CampaignFactory extends Factory
             'coupon_count' => 100,
             'coupon_validity' => 48,
             'limit_per_person' => 2,
-            'starts_at' => Carbon::now()->format('d/m/Y H:i:s'),
+            'starts_at' => Carbon::now()->format('d/m/Y H:i'),
         ];
     }
 
@@ -37,7 +37,7 @@ class CampaignFactory extends Factory
     {
         return $this->state(function($attributes) {
             return [
-                'ends_at' => Carbon::now()->subDay()
+                'ends_at' => Carbon::now()->subDay()->format('d/m/Y H:i')
             ];
         });
     }

@@ -10,4 +10,5 @@ class Constants
     const ACCESS_ADMIN = 'access admin';
     const CREATE_SHOPS = 'create shops';
     const CREATE_CAMPAIGNS = 'create campaigns';
+    const VALIDATE_COUPONS = 'validate coupons';
 }

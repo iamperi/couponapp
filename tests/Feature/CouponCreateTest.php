@@ -16,6 +16,11 @@ class CouponCreateTest extends TestCase
      */
     public function coupons_are_created_when_a_campaign_is_created()
     {
+        $this->withoutExceptionHandling();
+
+        // Create 100 coupons
         Campaign::factory()->create();
+
+        $this->assertDatabaseCount('coupons', 100);
     }
 }

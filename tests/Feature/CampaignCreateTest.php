@@ -317,8 +317,8 @@ class CampaignCreateTest extends TestCase
             'coupon_count' => '1000',
             'coupon_validity' => '48',
             'limit_per_person' => '2',
-            'starts_at' => '20/12/2021 10:00:00',
-            'ends_at' => '06/01/2021 00:00:00',
+            'starts_at' => '20/12/2021 10:00',
+            'ends_at' => '06/01/2021 00:00',
         ], $data);
     }
 

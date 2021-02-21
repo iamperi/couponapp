@@ -10,8 +10,6 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 
-        <!-- Scripts -->
-        <script src="{{ asset('js/admin.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 px-4">
@@ -24,8 +22,8 @@
                     <label>Cupones WebApp</label>
                 </div>
 
-                <div class="admin-nav-right flex-grow">
-
+                <div class="admin-nav-right flex-grow text-right">
+                    @include('admin.includes.user-avatar')
                 </div>
             </nav>
 
@@ -33,9 +31,13 @@
 
             </div>
 
-            <main class="pt-24">
+            <main class="pt-24 max-w-7xl m-auto">
                 {{ $slot }}
             </main>
         </div>
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/admin.js') }}" defer></script>
+        @stack('js')
     </body>
 </html>

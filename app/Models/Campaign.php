@@ -26,7 +26,14 @@ class Campaign extends Model
 
     public function setStartsAtAttribute($value)
     {
-        $this->attributes['starts_at'] = Carbon::createFromFormat('d/m/Y H:i:s', $value);
+        $this->attributes['starts_at'] = Carbon::createFromFormat('d/m/Y H:i', $value);
+    }
+
+    public function setEndsAtAttribute($value)
+    {
+        if(!empty($value)) {
+            $this->attributes['ends_at'] = Carbon::createFromFormat('d/m/Y H:i', $value);
+        }
     }
 
     public function scopeActive($query)

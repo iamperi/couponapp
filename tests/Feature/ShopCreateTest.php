@@ -34,15 +34,19 @@ class ShopCreateTest extends TestCase
         $this->actingAs($user)->post($this->storeRoute, $this->getShopData());
 
         $this->assertDatabaseHas('users', [
-            'name' => 'Starbucks',
             'phone' => '600123456',
             'email' => 'hello@starbucks.com',
             'username' => 'starbucks',
         ]);
 
-        $shop = User::where('username', 'starbucks')->first();
+        $shopUser = User::where('username', 'starbucks')->first();
 
-        $this->assertTrue($shop->hasRole(Constants::SHOP_ROLE));
+        $this->assertTrue($shopUser->hasRole(Constants::SHOP_ROLE));
+
+        $this->assertDatabaseHas('shops', [
+            'user_id' => $shopUser->id,
+            'name' => 'Starbucks'
+        ]);
     }
 
     /**

@@ -23,6 +23,8 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+Route::post('coupons/assign', 'CouponController@assign')->name('coupons.assign')->middleware(['throttle:coupons']);
+
 Route::prefix('admin')
         ->name('admin.')
         ->middleware(['auth', 'admin'])
@@ -33,4 +35,6 @@ Route::prefix('admin')
     Route::post('shops', 'Admin\ShopController@store')->name('shops.store');
 
     Route::post('campaigns', 'Admin\CampaignController@store')->name('campaigns.store');
+
+    Route::post('coupons/{coupon}/verify', 'Admin\CouponController@verify')->name('coupons.verify');
 });
