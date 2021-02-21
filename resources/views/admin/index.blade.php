@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div x-data="{ tab: window.location.hash.replace('#', '') || localStorage.getItem('tab') }">
+    <div x-data="{ tab: window.location.hash.replace('#', '') || localStorage.getItem('tab') || 'tab1' }">
 
         <div class="tabs flex items-center">
             @admin
