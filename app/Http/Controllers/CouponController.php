@@ -17,6 +17,7 @@ class CouponController extends Controller
         $coupon = $user->assignCoupon($campaign);
 
         if(!$coupon) {
+
             return redirect()->back();
         }
     }
