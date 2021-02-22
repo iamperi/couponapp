@@ -15,7 +15,7 @@ class AdminController extends Controller
     {
         $shops = User::role(Constants::SHOP_ROLE)->get();
         $usedCoupons = Coupon::used()->get();
-        $activeCampaigns = Campaign::active()->get();
+        $activeCampaigns = Campaign::nonFinished()->get();
         return view('admin.index', compact('shops', 'usedCoupons', 'activeCampaigns'));
     }
 }

@@ -17,13 +17,13 @@ class CampaignController extends Controller
         return redirect()->back();
     }
 
-    public function deactivate(Campaign $campaign)
+    public function toggle(Campaign $campaign)
     {
         if(!auth()->user()->can(Constants::EDIT_CAMPAIGNS)) {
             abort(403);
         }
 
-        $campaign->ends_at = Carbon::now();
+        $campaign->active = !$campaign->active;
         $campaign->save();
 
         return redirect(route('admin.index'));

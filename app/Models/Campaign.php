@@ -13,6 +13,10 @@ class Campaign extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'active' => 'boolean'
+    ];
+
     protected $dates = ['starts_at', 'ends_at'];
 
     protected $dispatchesEvents = [
@@ -59,6 +63,11 @@ class Campaign extends Model
 
     public function scopeActive($query)
     {
+        return $query->whereTrue('active');
+    }
+
+    public function scopeNonFinished($query)
+    {
         return $query->whereNull('ends_at')->orWhere('ends_at', '>=', Carbon::now());
     }
 
@@ -68,5 +77,10 @@ class Campaign extends Model
             return true;
         }
         return false;
+    }
+
+    public function status()
+    {
+        return $this->active ? __('Active') : __('Inactive');
     }
 }

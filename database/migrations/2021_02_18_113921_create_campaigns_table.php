@@ -23,6 +23,7 @@ class CreateCampaignsTable extends Migration
             $table->unsignedInteger('limit_per_person')->comment('Max. number of coupons that a person can get');
             $table->dateTime('starts_at');
             $table->dateTime('ends_at')->nullable();
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }

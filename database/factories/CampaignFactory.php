@@ -33,11 +33,20 @@ class CampaignFactory extends Factory
         ];
     }
 
+    public function active()
+    {
+        return $this->state(function($attributes) {
+            return [
+                'active' => true
+            ];
+        });
+    }
+
     public function inactive()
     {
         return $this->state(function($attributes) {
             return [
-                'ends_at' => Carbon::now()->subDay()->format('d/m/Y H:i')
+                'active' => false
             ];
         });
     }

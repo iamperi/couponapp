@@ -84,11 +84,23 @@ body {
             background-color: #887ef2;
         }
     }
+    .btn-green {
+        @apply bg-green-300 hover:bg-green-200;
+    }
     .btn-red {
         @apply bg-red-400 hover:bg-red-300;
     }
     .btn-xs {
         @apply px-1 py-1 text-xs;
+    }
+    .badge {
+        @apply text-xs text-white rounded px-2;
+        &.badge-green {
+            @apply bg-green-400;
+        }
+        &.badge-red {
+            @apply bg-red-400;
+        }
     }
     .card {
         @apply rounded shadow-lg bg-white p-6;

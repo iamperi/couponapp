@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CampaignDeactivationTest extends TestCase
+class CampaignActivationTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -25,34 +25,48 @@ class CampaignDeactivationTest extends TestCase
     /**
      * @test
      */
-    public function a_user_can_deactivate_a_campaign()
+    public function a_user_can_activate_a_campaign()
     {
-        $campaign = Campaign::factory()->create();
+        $campaign = Campaign::factory()->inactive()->create();
 
-        $this->actingAs($this->getAdminUser())->post($this->getDeactivateRoute($campaign));
+        $this->actingAs($this->getAdminUser())->post($this->getPostRoute($campaign));
 
         $campaign = $campaign->fresh();
 
-        $this->assertEquals(Carbon::now()->format('Y-m-d H:i:s'), $campaign->ends_at);
+        $this->assertTrue($campaign->active);
     }
 
     /**
      * @test
      */
-    public function only_authorized_users_can_deactivate_campaigns()
+    public function a_user_can_deactivate_a_campaign()
+    {
+        $campaign = Campaign::factory()->active()->create();
+
+        $this->actingAs($this->getAdminUser())->post($this->getPostRoute($campaign));
+
+        $campaign = $campaign->fresh();
+
+        $this->assertFalse($campaign->active);
+    }
+
+    /**
+     * @test
+     */
+    public function only_authorized_users_can_toggle_campaigns()
     {
         $campaign = Campaign::factory()->create();
 
-        $this->actingAs($this->getShopUser())->post($this->getDeactivateRoute($campaign));
+        $this->actingAs($this->getShopUser())->post($this->getPostRoute($campaign));
 
         $campaign = $campaign->fresh();
 
         $this->assertNull($campaign->ends_at);
     }
 
-    private function getDeactivateRoute($campaign)
+    private function getPostRoute($campaign)
     {
-        return route('admin.campaigns.deactivate', $campaign);
+        return route('admin.campaigns.toggle', $campaign);
     }
 
     private function getAdminUser()

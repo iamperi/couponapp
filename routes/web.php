@@ -35,7 +35,7 @@ Route::prefix('admin')
     Route::post('shops', 'Admin\ShopController@store')->name('shops.store');
 
     Route::post('campaigns', 'Admin\CampaignController@store')->name('campaigns.store');
-    Route::post('campaigns/{campaign}/deactivate', 'Admin\CampaignController@deactivate')->name('campaigns.deactivate');
+    Route::post('campaigns/{campaign}/toggle', 'Admin\CampaignController@toggle')->name('campaigns.toggle');
 
     Route::post('coupons/{coupon}/verify', 'Admin\CouponController@verify')->name('coupons.verify');
 });

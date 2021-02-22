@@ -153,32 +153,41 @@
 <div class="card mt-8">
     <div class="card-header">
         <div class="card-title">
-            <h1>@lang('Active campaigns')</h1>
+            <h1>@lang('Campaign list')</h1>
             <h2>@lang('Citizens will only receive coupons from the active campaign')</h2>
         </div>
+    </div>
         <div class="card-body">
-            <div class="active-campaigns mt-8">
+            <div class="active-campaigns grid grid-cols-4 mt-2">
             @foreach($activeCampaigns as $campaign)
-                <div class="flex inline-flex flex-col bg-indigo-50 border border-indigo-200 p-6 rounded shadow">
-                    <label class="font-medium">{{ $campaign->name }}</label>
-                    <label>
-                        {{ $campaign->coupon_count }} <span class="lowercase">@lang('Coupons')</span>
-                        ({{ $campaign->usedCouponCount() }} <span class="lowercase">@lang('Used')</span>)
-                    </label>
-                    <label>@lang('Amount'): {{ $campaign->coupon_amount }} €</label>
-                    <label>@lang('Valid for') {{ $campaign->coupon_validity }} <span class="lowercase">@lang('Hours')</span></label>
-                    <form method="POST" action="{{ route('admin.campaigns.deactivate', $campaign) }}">
-                        @csrf
-                        <button class="btn btn-xs btn-red">@lang('Desactivar')</button>
-                    </form>
+                <div class="flex inline-flex flex-col border p-6 rounded shadow m-2 {{ $campaign->active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' }}">
+                    <div class="flex justify-between items-center">
+                        <div class="flex flex-col">
+                            <span class="uppercase text-gray-400" style="font-size: .6rem;">@lang('Campaign')</span>
+                            <label class="font-medium">{{ $campaign->name }}</label>
+                        </div>
+                        <x-badge color-class="{{ $campaign->active ? 'badge-green' : 'badge-red' }}"
+                                 text="{{ $campaign->status() }}"
+                        ></x-badge>
+                    </div>
+                    <div class="mt-2">
+                        <label>
+                            {{ $campaign->coupon_count }} <span class="lowercase">@lang('Coupons')</span>
+                            ({{ $campaign->usedCouponCount() }} <span class="lowercase">@lang('Used')</span>)
+                        </label>
+                        <label>@lang('Amount'): {{ $campaign->coupon_amount }} €</label>
+                        <label>@lang('Valid for') {{ $campaign->coupon_validity }} <span class="lowercase">@lang('Hours')</span></label>
+                        <form method="POST" action="{{ route('admin.campaigns.toggle', $campaign) }}">
+                            @csrf
+                            @if($campaign->active)
+                            <button class="btn btn-xs btn-red">@lang('Deactivate')</button>
+                            @else
+                            <button class="btn btn-xs btn-green">@lang('Activate')</button>
+                            @endif
+                        </form>
+                    </div>
                 </div>
             @endforeach
             </div>
         </div>
-
-    </div>
-
-    <div class="card-body">
-
-    </div>
 </div>
