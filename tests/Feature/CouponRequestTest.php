@@ -26,6 +26,18 @@ class CouponRequestTest extends TestCase
     /**
      * @test
      */
+    public function a_user_can_access_the_request_coupon_form()
+    {
+        $this->withoutExceptionHandling();
+
+        $response =$this->get(route('home'));
+
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
     public function a_user_can_request_a_coupon()
     {
         $this->withoutExceptionHandling();

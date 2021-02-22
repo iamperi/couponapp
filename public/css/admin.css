@@ -1646,6 +1646,13 @@ select{
   border-color: rgba(248, 113, 113, var(--tw-border-opacity));
 }
 
+.textbox.textbox-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .btn {
   border-radius: 0.25rem;
   padding-left: 1.5rem;
@@ -1710,6 +1717,11 @@ select{
 .badge.badge-red {
   --tw-bg-opacity: 1;
   background-color: rgba(248, 113, 113, var(--tw-bg-opacity));
+}
+
+.badge.badge-indigo {
+  --tw-bg-opacity: 1;
+  background-color: rgba(165, 180, 252, var(--tw-bg-opacity));
 }
 
 .card {

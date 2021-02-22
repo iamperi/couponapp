@@ -1,1 +1,1 @@
-<label {{ $attributes->merge(['class' => 'badge ' . $colorClass]) }}>{{ $text }}</label>
+<label {{ $attributes->merge(['class' => 'badge']) }}>{{ $slot }}</label>

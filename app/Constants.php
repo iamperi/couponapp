@@ -12,4 +12,5 @@ class Constants
     const CREATE_CAMPAIGNS = 'create campaigns';
     const EDIT_CAMPAIGNS = 'edit campaigns';
     const VALIDATE_COUPONS = 'validate coupons';
+    const PAY_COUPONS = 'pay coupons';
 }

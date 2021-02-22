@@ -12,6 +12,8 @@ class Coupon extends Model
 
     protected $guarded = [];
 
+    protected $dates = ['payed_at', 'used_at'];
+
     public function campaign()
     {
         return $this->belongsTo(Campaign::class);
@@ -45,6 +47,9 @@ class Coupon extends Model
             $this->shop()->associate(auth()->user()->shop);
             $this->used_at = Carbon::now();
             $this->save();
+
+            $this->shop->unpayed($this->amount);
+
             return true;
         } catch(\Exception $e) {
             return __('Ooops... Something bad happened');
@@ -64,6 +69,31 @@ class Coupon extends Model
     public function expired()
     {
         return $this->expires_at < Carbon::now();
+    }
+
+    public function pay()
+    {
+        if(!$this->redeemed()) {
+            return;
+        }
+
+        $this->payed_at = Carbon::now();
+        $this->save();
+
+        $this->shop->payed($this->amount);
+    }
+
+    public function unpay()
+    {
+        $this->payed_at = NULL;
+        $this->save();
+
+        $this->shop->unpayed($this->amount);
+    }
+
+    public function payedStatus()
+    {
+        return $this->payed_at ? __('Payed') : __('Unpayed');
     }
 
     public static function newCode($prefix)

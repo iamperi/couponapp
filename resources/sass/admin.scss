@@ -73,6 +73,9 @@ body {
         &.invalid {
             @apply border-red-400;
         }
+        &.textbox-sm {
+            @apply py-1 text-sm;
+        }
     }
     .btn {
         @apply rounded py-3.5 px-6 text-white;
@@ -100,6 +103,9 @@ body {
         }
         &.badge-red {
             @apply bg-red-400;
+        }
+        &.badge-indigo {
+            @apply bg-indigo-300;
         }
     }
     .card {

@@ -13,15 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 require __DIR__.'/auth.php';
+
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('coupons/assign', 'CouponController@assign')->name('coupons.assign')->middleware(['throttle:coupons']);
 
@@ -41,5 +35,6 @@ Route::prefix('admin')
     Route::post('campaigns/{campaign}/toggle', 'Admin\CampaignController@toggle')->name('campaigns.toggle');
 
     Route::get('coupons/validate', 'Admin\CouponValidationController@index')->name('coupons.validation.index');
-    Route::post('coupons/{coupon}/verify', 'Admin\CouponValidationController@store')->name('coupons.validation.store');
+    Route::post('coupons/{coupon}/validate', 'Admin\CouponValidationController@store')->name('coupons.validation.store');
+    Route::post('coupons/{coupon}/pay', 'Admin\CouponPaymentController@update')->name('coupons.payment.update');
 });

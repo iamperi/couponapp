@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Filters;
+
+use Closure;
+
+class Search extends Filter
+{
+    private $fields;
+
+    public function __construct(array $fields)
+    {
+        $this->fields = $fields;
+    }
+
+    protected function applyFilter($builder)
+    {
+        $search = request($this->filterName());
+
+        $builder = $builder->where($this->fields[0], 'like', "%$search%");
+        for($i = 1; $i < count($this->fields); $i++) {
+            $builder = $builder->orWhere($this->fields[$i], 'like', "%$search%");
+        }
+        return $builder;
+    }
+}

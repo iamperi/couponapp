@@ -1,19 +1,24 @@
 <x-admin-layout>
     <div class="card">
-        <div class="card-header">
-            <label class="card-title">@lang('Shop list')</label>
+        <div class="card-header flex justify-between">
+            <div class="card-title">
+                <h1>@lang('Shop list')</h1>
+            </div>
+            <div>
+                <input type="text" class="textbox textbox-sm table-search" placeholder="@lang('Search...')">
+            </div>
         </div>
 
         <div class="card-body">
             <div class="responsive-table-wrapper">
-                <table>
+                <table id="shops_table">
                     <thead>
                         <tr>
-                            <td>@lang('Name')</td>
-                            <td>@lang('Username')</td>
-                            <td>@lang('Email')</td>
-                            <td>@lang('Phone')</td>
-                            <td>@lang('Password')</td>
+                            <td data-field="name">@lang('Name')</td>
+                            <td data-field="username">@lang('Username')</td>
+                            <td data-field="email">@lang('Email')</td>
+                            <td data-field="phone">@lang('Phone')</td>
+                            <td>@lang('Pending payments')</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,12 +28,13 @@
                             <td>{{ $shopUser->username }}</td>
                             <td>{{ $shopUser->email }}</td>
                             <td>{{ $shopUser->phone ?? '-' }}</td>
-                            <td>{{ $shopUser->password }}</td>
+                            <td>{{ $shopUser->shop->due_amount }} €</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+            <div id="shops_pagination"></div>
         </div>
     </div>
     <div class="card mt-8">
@@ -98,4 +104,97 @@
             </div>
         </form>
     </div>
+
+    @push('js')
+    <script>
+        let filters = {
+            search: '',
+            order_by: 'name',
+            order_asc: true,
+            page: 1
+        };
+        const columns = [
+            {
+                field: 'full_name',
+                label: 'Nombre'
+            },
+            {
+                field: 'username',
+                label: 'Usuario'
+            },
+            {
+                field: 'email',
+                label: 'Email'
+            },
+            {
+                field: 'phone',
+                label: 'Teléfono'
+            },
+            {
+                field: 'password',
+                label: 'Contraseña'
+            }
+        ];
+        const table = document.querySelector('#shops_table');
+        const searchBox = document.querySelector('.table-search');
+        const headerCells = table.querySelectorAll('thead tr td');
+        const pagination = document.querySelector('#shops_pagination');
+        // refreshTable();
+        headerCells.forEach((el) => {
+            el.addEventListener('click', () => {
+                const orderBy = el.dataset.field;
+                if(filters.order_by == orderBy) {
+                    filters.order_asc = !filters.orderAsc;
+                } else {
+                    filters.order_by = orderBy;
+                    filters.order_asc = true;
+                }
+                refreshTable();
+            });
+        });
+        searchBox.addEventListener('keyup', () => {
+            const value = searchBox.value;
+            if(value.length == 0 || value.length >= 3) {
+                filters.search = value;
+                refreshTable();
+            }
+        });
+
+        function refreshTable() {
+            axios({
+                method: 'GET',
+                url: '/admin/shops',
+                params: filters
+            })
+            .then(response => {
+                const data = response.data;
+                const shops = data.data;
+                console.log(data)
+                const tBody = table.querySelector('tbody');
+                tBody.innerHTML = '';
+                for(const row of shops) {
+                    const tr = document.createElement('tr');
+                    for(const column of columns) {
+                        const td = document.createElement('td');
+                        td.innerText = row[column.field];
+                        tr.appendChild(td);
+                    }
+                    tBody.appendChild(tr);
+                }
+                pagination.innerHTML = '';
+                for(const link of data.links) {
+                    const a = document.createElement('a');
+                    a.innerText = link.label;
+                    a.classList.add('pagination-link');
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        filters.page = link.label;
+                        refreshTable();
+                    });
+                    pagination.appendChild(a);
+                }
+            });
+        }
+    </script>
+    @endpush
 </x-admin-layout>

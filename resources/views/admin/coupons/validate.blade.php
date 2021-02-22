@@ -32,7 +32,7 @@
 
             function validateCoupon(e) {
                 const code = couponCodeInput.value;
-                axios.post('/admin/coupons/' + code + '/verify')
+                axios.post('/admin/coupons/' + code + '/validate')
                     .then(response => {
                         const status = response.data.status;
                         console.log(response.data)

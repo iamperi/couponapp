@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants;
+use App\Filters\OrderBy;
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 
 class ShopController extends Controller
 {
     public function index()
     {
+        if(request()->ajax()) {
+            return User::shops();
+        }
         $shopUsers = User::role(Constants::SHOP_ROLE)->get();
         return view('admin.shops.index', compact('shopUsers'));
     }

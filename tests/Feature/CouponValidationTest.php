@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CouponVerificationTest extends TestCase
+class CouponValidationTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -35,7 +35,7 @@ class CouponVerificationTest extends TestCase
     /**
      * @test
      */
-    public function a_user_can_verify_a_coupon()
+    public function a_user_can_validate_a_coupon()
     {
 //        $this->withoutExceptionHandling();
 
@@ -48,9 +48,9 @@ class CouponVerificationTest extends TestCase
     /**
      * @test
      */
-    public function only_authorized_users_can_verify_coupon_codes()
+    public function only_authorized_users_can_validate_coupon_codes()
     {
-        $user = $this->getAdminUser(); // Admin users can't verify coupons
+        $user = $this->getAdminUser(); // Admin users can't validate coupons
 
         $response = $this->actingAs($user)->post($this->getVerifyRouteFor($this->coupon));
 
@@ -75,7 +75,7 @@ class CouponVerificationTest extends TestCase
     /**
      * @test
      */
-    public function can_only_verify_coupons_assigned_to_a_user()
+    public function can_only_validate_coupons_assigned_to_a_user()
     {
         $this->coupon->user_id = NULL;
         $this->coupon->save();
@@ -112,6 +112,17 @@ class CouponVerificationTest extends TestCase
         $response->assertJsonFragment([
             'status' => 'error'
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shops_due_amount_is_updated_when_a_coupon_is_validated()
+    {
+        $this->actingAs($this->getShopUser())->post($this->getVerifyRouteFor($this->coupon));
+
+        $coupon = $this->coupon->fresh();
+        $this->assertEquals($coupon->amount, $coupon->shop->due_amount);
     }
 
     private function getVerifyRouteFor($coupon)

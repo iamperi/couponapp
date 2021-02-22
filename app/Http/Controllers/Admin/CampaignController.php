@@ -32,6 +32,6 @@ class CampaignController extends Controller
         $campaign->active = !$campaign->active;
         $campaign->save();
 
-        return redirect(route('admin.index'));
+        return redirect(route('admin.campaigns.index'));
     }
 }

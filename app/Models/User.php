@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Constants;
+use App\Filters\OrderBy;
+use App\Filters\Search;
 use App\Traits\HasCoupons;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Pipeline\Pipeline;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -40,9 +43,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'full_name'
+    ];
+
     public function shop()
     {
         return $this->hasOne(Shop::class);
+    }
+
+    public static function shops()
+    {
+        return app(Pipeline::class)
+            ->send(User::role(Constants::SHOP_ROLE))
+            ->through([
+                OrderBy::class,
+                new Search(['username', 'email'])
+            ])
+            ->thenReturn()
+            ->paginate(3);
     }
 
     public function getFullNameAttribute()

@@ -17,6 +17,8 @@ class CreateShopsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('name');
+            $table->double('due_amount')->default(0);
+            $table->double('payed_amount')->default(0);
             $table->timestamps();
         });
     }

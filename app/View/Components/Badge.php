@@ -14,10 +14,8 @@ class Badge extends Component
      *
      * @return void
      */
-    public function __construct($colorClass, $text)
+    public function __construct()
     {
-        $this->colorClass = $colorClass;
-        $this->text = $text;
     }
 
     /**

@@ -22,6 +22,7 @@ class CreateCouponsTable extends Migration
             $table->double('amount');
             $table->dateTime('used_at')->nullable();
             $table->dateTime('expires_at');
+            $table->dateTime('payed_at')->nullable();
             $table->timestamps();
         });
     }
