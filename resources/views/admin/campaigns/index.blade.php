@@ -171,9 +171,9 @@
                                 <span class="uppercase text-gray-400" style="font-size: .6rem;">@lang('Campaign')</span>
                                 <label class="font-medium">{{ $campaign->name }}</label>
                             </div>
-                            <x-badge color-class="{{ $campaign->active ? 'badge-green' : 'badge-red' }}"
-                                     text="{{ $campaign->status() }}"
-                            ></x-badge>
+                            <x-badge class="{{ $campaign->active ? 'badge-green' : 'badge-red' }}">
+                                 {{ $campaign->status() }}
+                            </x-badge>
                         </div>
                         <div class="mt-2">
                             <label>
