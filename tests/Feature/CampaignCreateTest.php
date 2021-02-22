@@ -43,6 +43,18 @@ class CampaignCreateTest extends TestCase
     /**
      * @test
      */
+    public function a_success_message_is_shown_when_a_campaign_is_created()
+    {
+        $user = $this->getAdminUser();
+
+        $response = $this->followingRedirects()->actingAs($user)->post($this->storeRoute, $this->getCampaignData());
+
+        $response->assertSee(__('Campaign created successfully'));
+    }
+
+    /**
+     * @test
+     */
     public function only_an_authorized_user_can_create_campaigns()
     {
         $user = User::factory()->create();

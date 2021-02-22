@@ -24,14 +24,16 @@ class UserSeeder extends Seeder
         ]);
         $user->assignRole(Constants::ADMIN_ROLE);
 
-        $shop = Shop::factory()->create();
-
         $shopUser = User::create([
             'username' => 'iamshop',
             'email' => 'me@iamshop.com',
             'password' => Hash::make('password')
         ]);
         $shopUser->assignRole(Constants::SHOP_ROLE);
-        $shop->user()->associate($shopUser)->save();
+
+        $shop = Shop::create([
+            'user_id' => $shopUser->id,
+            'name' => 'Mi tienda'
+        ]);
     }
 }

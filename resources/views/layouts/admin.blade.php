@@ -32,7 +32,15 @@
             </div>
 
             <main class="pt-24 max-w-7xl m-auto">
-                {{ $slot }}
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 6000)">
+                    @include('admin.includes.tabs')
+                    @if(session('success'))
+                    <div class="alert alert-success alert-big mb-4 text-center" x-show="show">
+                        <label>{{ session('success') }}</label>
+                    </div>
+                    @endif
+                    {{ $slot }}
+                </div>
             </main>
         </div>
 

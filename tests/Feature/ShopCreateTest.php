@@ -27,7 +27,7 @@ class ShopCreateTest extends TestCase
      */
     public function a_user_can_create_a_shop()
     {
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
 
         $user = $this->getAdminUser();
 
@@ -47,6 +47,18 @@ class ShopCreateTest extends TestCase
             'user_id' => $shopUser->id,
             'name' => 'Starbucks'
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function a_success_message_is_shown_when_a_shop_is_created()
+    {
+        $user = $this->getAdminUser();
+
+        $response = $this->followingRedirects()->actingAs($user)->post($this->storeRoute, $this->getShopData());
+
+        $response->assertSee(__('Shop created successfully'));
     }
 
     /**
@@ -100,6 +112,20 @@ class ShopCreateTest extends TestCase
     /**
      * @test
      */
+    public function a_phone_has_to_be_unique()
+    {
+        $user = $this->getAdminUser();
+
+        $newUser = User::factory()->create(['phone' => '123456']);
+
+        $response = $this->actingAs($user)->post($this->storeRoute, $this->getShopData(['phone' => $newUser->phone]));
+
+        $response->assertSessionHasErrorsIn('phone');
+    }
+
+    /**
+     * @test
+     */
     public function an_email_is_required_to_create_a_shop()
     {
         $user = $this->getAdminUser();
@@ -124,6 +150,18 @@ class ShopCreateTest extends TestCase
     /**
      * @test
      */
+    public function an_email_has_to_be_unique()
+    {
+        $user = $this->getAdminUser();
+
+        $response = $this->actingAs($user)->post($this->storeRoute, $this->getShopData(['email' => $user->email]));
+
+        $response->assertSessionHasErrorsIn('email');
+    }
+
+    /**
+     * @test
+     */
     public function a_username_is_required_to_create_a_shop()
     {
         $user = $this->getAdminUser();
@@ -141,6 +179,18 @@ class ShopCreateTest extends TestCase
         $user = $this->getAdminUser();
 
         $response = $this->actingAs($user)->post($this->storeRoute, $this->getShopData(['username' => 'this.is.a.very.very.very.very.very.very.long.username']));
+
+        $response->assertSessionHasErrorsIn('username');
+    }
+
+    /**
+     * @test
+     */
+    public function a_username_has_to_be_unique()
+    {
+        $user = $this->getAdminUser();
+
+        $response = $this->actingAs($user)->post($this->storeRoute, $this->getShopData(['username' => $user->username]));
 
         $response->assertSessionHasErrorsIn('username');
     }

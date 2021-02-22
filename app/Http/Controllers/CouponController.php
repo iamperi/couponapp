@@ -8,6 +8,7 @@ use App\Models\User;
 
 class CouponController extends Controller
 {
+
     public function assign(GetCouponRequest $request)
     {
         $user = User::getCitizen(request()->only(['name', 'last_name', 'dni', 'phone', 'email']));

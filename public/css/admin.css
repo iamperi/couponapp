@@ -1818,6 +1818,12 @@ table td {
   padding-right: 1.5rem;
 }
 
+.alert.alert-big {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
 .alert.alert-error {
   --tw-bg-opacity: 1;
   background-color: rgba(254, 226, 226, var(--tw-bg-opacity));
@@ -1835,7 +1841,7 @@ table td {
 
 .alert.alert-success label {
   --tw-text-opacity: 1;
-  color: rgba(5, 150, 105, var(--tw-text-opacity));
+  color: rgba(4, 120, 87, var(--tw-text-opacity));
 }
 
 .space-y-0 > :not([hidden]) ~ :not([hidden]){

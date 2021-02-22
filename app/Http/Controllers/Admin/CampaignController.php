@@ -10,11 +10,17 @@ use Carbon\Carbon;
 
 class CampaignController extends Controller
 {
+    public function index()
+    {
+        $activeCampaigns = Campaign::nonFinished()->get();
+        return view('admin.campaigns.index', compact('activeCampaigns'));
+    }
+
     public function store(StoreCampaignRequest $request)
     {
         Campaign::create($request->validated());
 
-        return redirect()->back();
+        return redirect(route('admin.campaigns.index'))->with('success', __('Campaign created successfully'));
     }
 
     public function toggle(Campaign $campaign)

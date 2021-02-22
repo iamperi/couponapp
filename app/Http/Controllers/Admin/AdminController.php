@@ -13,9 +13,10 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $shops = User::role(Constants::SHOP_ROLE)->get();
-        $usedCoupons = Coupon::used()->get();
-        $activeCampaigns = Campaign::nonFinished()->get();
-        return view('admin.index', compact('shops', 'usedCoupons', 'activeCampaigns'));
+        $redirectTo = route('admin.shops.index');
+        if(auth()->user()->hasRole(Constants::SHOP_ROLE)) {
+            $redirectTo = route('admin.coupons.validation.index');
+        }
+        return redirect($redirectTo);
     }
 }

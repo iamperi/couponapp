@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants;
 use App\Traits\HasCoupons;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,11 +47,25 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        if(!empty($this->name)) {
-            return $this->name . ' ' . $this->last_name;
+        if($this->isShop()) {
+            return $this->shop->name;
         } else {
-            return $this->username;
+            if(!empty($this->name)) {
+                return $this->name . ' ' . $this->last_name;
+            } else {
+                return $this->username;
+            }
         }
+    }
+
+    public function isShop()
+    {
+        return $this->hasRole(Constants::SHOP_ROLE);
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole(Constants::ADMIN_ROLE);
     }
 
     public static function getCitizen($data)

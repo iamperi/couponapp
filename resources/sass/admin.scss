@@ -154,6 +154,9 @@ body {
     }
     .alert {
         @apply px-6 py-1 rounded;
+        &.alert-big {
+            @apply py-2 text-center;
+        }
         &.alert-error {
             @apply bg-red-100;
             label {
@@ -163,7 +166,7 @@ body {
         &.alert-success {
             @apply bg-green-100;
             label {
-                @apply text-green-600;
+                @apply text-green-700;
             }
         }
     }

@@ -26,7 +26,7 @@ class AdminTest extends TestCase
     /**
      * @test
      */
-    public function authorized_users_can_access_admin_panel()
+    public function admin_users_can_access_admin_panel()
     {
         $this->withoutExceptionHandling();
 
@@ -34,7 +34,21 @@ class AdminTest extends TestCase
 
         $response = $this->actingAs($user)->get($this->adminRoute);
 
-        $response->assertViewIs('admin.index');
+        $response->assertRedirect(route('admin.shops.index'));
+    }
+
+    /**
+     * @test
+     */
+    public function shop_users_can_access_admin_panel()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::role(Constants::SHOP_ROLE)->first();
+
+        $response = $this->actingAs($user)->get($this->adminRoute);
+
+        $response->assertRedirect(route('admin.coupons.validation.index'));
     }
 
     /**

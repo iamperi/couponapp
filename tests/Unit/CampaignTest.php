@@ -18,7 +18,7 @@ class CampaignTest extends TestCase
         $this->withoutExceptionHandling();
 
         // Create 5 active campaigns
-        Campaign::factory()->count(5)->create();
+        Campaign::factory()->count(5)->active()->create();
         // Create 5 inactive campaigns
         Campaign::factory()->count(5)->inactive()->create();
 

@@ -24,7 +24,7 @@ class ShopFactory extends Factory
     public function definition()
     {
         $user = User::factory()->create();
-        $user->assignRole(Constants::SHOP_ROLE);
+        $user->assignRole(Constants::SHOP_ROLE)->save();
         return [
             'user_id' => $user->id,
             'name' => $this->faker->word

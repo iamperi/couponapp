@@ -63,7 +63,7 @@ class Campaign extends Model
 
     public function scopeActive($query)
     {
-        return $query->whereTrue('active');
+        return $query->where('active', 1);
     }
 
     public function scopeNonFinished($query)

@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
+    public function index()
+    {
+        $shopUsers = User::role(Constants::SHOP_ROLE)->get();
+        return view('admin.shops.index', compact('shopUsers'));
+    }
+
     public function store()
     {
         if(auth()->user()->cannot(Constants::CREATE_SHOPS)) {
@@ -18,9 +24,9 @@ class ShopController extends Controller
 
         $validated = request()->validate([
             'name' => 'required|filled',
-            'phone' => 'required|max:9',
-            'email' => 'required|email',
-            'username' => 'required|max:50',
+            'phone' => 'required|max:9|unique:users,phone',
+            'email' => 'required|email|unique:users,email',
+            'username' => 'required|max:50|unique:users,username',
             'password' => 'required|confirmed'
         ]);
 
@@ -36,5 +42,7 @@ class ShopController extends Controller
         ]);
 
         $shop->user()->associate($shopUser);
+
+        return redirect(route('admin.shops.index'))->with('success', __('Shop created successfully'));
     }
 }

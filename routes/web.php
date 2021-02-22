@@ -34,8 +34,12 @@ Route::prefix('admin')
     Route::get('shops', 'Admin\ShopController@index')->name('shops.index');
     Route::post('shops', 'Admin\ShopController@store')->name('shops.store');
 
+    Route::get('historic', 'Admin\HistoricController@index')->name('historic.index');
+
+    Route::get('campaigns', 'Admin\CampaignController@index')->name('campaigns.index');
     Route::post('campaigns', 'Admin\CampaignController@store')->name('campaigns.store');
     Route::post('campaigns/{campaign}/toggle', 'Admin\CampaignController@toggle')->name('campaigns.toggle');
 
-    Route::post('coupons/{coupon}/verify', 'Admin\CouponController@verify')->name('coupons.verify');
+    Route::get('coupons/validate', 'Admin\CouponValidationController@index')->name('coupons.validation.index');
+    Route::post('coupons/{coupon}/verify', 'Admin\CouponValidationController@store')->name('coupons.validation.store');
 });

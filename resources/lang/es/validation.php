@@ -147,7 +147,8 @@ return [
         ],
         'email' => [
             'required' => 'Escribe un email',
-            'email' => 'Escribe un email válido'
+            'email' => 'Escribe un email válido',
+            'unique' => 'Ya existe un usuario con ese email'
         ],
         'limit_per_person' => [
             'required' => 'Escribe un número',
@@ -164,6 +165,7 @@ return [
         ],
         'phone' => [
             'required' => 'Escribe un teléfono',
+            'unique' => 'Ya existe un usuario con ese teléfono'
         ],
         'prefix' => [
             'required' => 'Escribe un prefijo',
@@ -174,6 +176,7 @@ return [
         ],
         'username' => [
             'required' => 'Escribe un nombre de usuario',
+            'unique' => 'Ese nombre de usuario ya está en uso'
         ],
     ],
 

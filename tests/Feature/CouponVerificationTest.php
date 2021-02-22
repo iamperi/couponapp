@@ -116,7 +116,7 @@ class CouponVerificationTest extends TestCase
 
     private function getVerifyRouteFor($coupon)
     {
-        return route('admin.coupons.verify', ['coupon' => $coupon]);
+        return route('admin.coupons.validation.store', ['coupon' => $coupon]);
     }
 
     private function getAdminUser()
