@@ -6,59 +6,104 @@
 
         <div class="card-body">
             <div class="responsive-table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>@lang('Name')</td>
-                            <td>@lang('DNI')</td>
-                            <td>@lang('Phone')</td>
-                            <td>@lang('Coupon')</td>
-                            <td>@lang('Campaign')</td>
-                            <td>@lang('Amount')</td>
-                            <td>@lang('Used at')</td>
-                            <td>
-                                <div class="flex items-center relative" x-data="{ show: false }">
-                                    <label>@lang('Status')</label>
-                                    <img src="{{ asset('img/icons/help.svg') }}"
-                                         class="w-5 ml-2 cursor-pointer"
-                                         @click="show = !show"
-                                         @click.away="show = false">
-                                    <div class="absolute w-32 rounded bg-white shadow-lg mt-24 p-2" x-show="show">
-                                        <label class="text-xs normal-case">@lang('Inline mark as payed')</label>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($usedCoupons as $coupon)
-                        <tr>
-                            <td>{{ $coupon->user->username }}</td>
-                            <td>{{ $coupon->user->dni }}</td>
-                            <td>{{ $coupon->user->phone }}</td>
-                            <td>{{ $coupon->code }}</td>
-                            <td>{{ $coupon->campaign->name }}</td>
-                            <td>{{ $coupon->amount }}</td>
-                            <td class="flex flex-col items-start">
-                                {{ $coupon->used_at->format('d/m/Y H:i:s') }}
-                                <x-badge class="badge-indigo">{{ $coupon->shop->name }}</x-badge>
-                            </td>
-                            <td x-data="{}">
-                                <form method="POST" action="{{ route('admin.coupons.payment.update', $coupon) }}">
-                                    @csrf
-                                    <a href="javascript:void(0);" @click="$event.target.closest('form').submit()">
-                                        <x-badge class="{{ $coupon->payed_at ? 'badge-green' : 'badge-red' }} cursor-pointer">
-                                            {!! $coupon->payedStatus() !!}
-                                        </x-badge>
-                                    </a>
-                                </form>
-                                @if($coupon->payed_at)<span class="text-xs">{{ $coupon->payed_at->format('d/m/Y H:i:s') }}</span> @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                @include('admin.historic.table')
             </div>
         </div>
     </div>
+
+    <button id="get">Dale</button>
+
+    @push('js')
+    <script>
+        let filters = {
+            search: '',
+            order_by: 'name',
+            order_asc: true,
+            page: 1
+        };
+        const columns = [
+            {
+                field: 'full_name',
+                label: 'Nombre'
+            },
+            {
+                field: 'username',
+                label: 'Usuario'
+            },
+            {
+                field: 'email',
+                label: 'Email'
+            },
+            {
+                field: 'phone',
+                label: 'Teléfono'
+            },
+            {
+                field: 'password',
+                label: 'Contraseña'
+            }
+        ];
+        const table = document.querySelector('#shops_table');
+        const searchBox = document.querySelector('.table-search');
+        const headerCells = table.querySelectorAll('thead tr td');
+        const pagination = document.querySelector('#shops_pagination');
+        // refreshTable();
+        headerCells.forEach((el) => {
+            el.addEventListener('click', () => {
+                const orderBy = el.dataset.field;
+                if(filters.order_by == orderBy) {
+                    filters.order_asc = !filters.orderAsc;
+                } else {
+                    filters.order_by = orderBy;
+                    filters.order_asc = true;
+                }
+                refreshTable();
+            });
+        });
+        searchBox.addEventListener('keyup', () => {
+            const value = searchBox.value;
+            if(value.length == 0 || value.length >= 3) {
+                filters.search = value;
+                refreshTable();
+            }
+        });
+
+        function refreshTable() {
+            axios({
+                method: 'GET',
+                url: '/admin/shops',
+                params: filters
+            })
+            .then(response => {
+                const data = response.data;
+                const shops = data.data;
+                console.log(data)
+                const tBody = table.querySelector('tbody');
+                tBody.innerHTML = '';
+                for(const row of shops) {
+                    const tr = document.createElement('tr');
+                    for(const column of columns) {
+                        const td = document.createElement('td');
+                        td.innerText = row[column.field];
+                        tr.appendChild(td);
+                    }
+                    tBody.appendChild(tr);
+                }
+                pagination.innerHTML = '';
+                for(const link of data.links) {
+                    const a = document.createElement('a');
+                    a.innerText = link.label;
+                    a.classList.add('pagination-link');
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        filters.page = link.label;
+                        refreshTable();
+                    });
+                    pagination.appendChild(a);
+                }
+            });
+        }
+    </script>
+    @endpush
 </x-admin-layout>
+

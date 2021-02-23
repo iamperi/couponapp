@@ -1775,13 +1775,20 @@ table thead td {
   text-transform: uppercase;
 }
 
-table td {
+table tr td {
+  --tw-border-opacity: 1;
+  border-color: rgba(229, 231, 235, var(--tw-border-opacity));
+  border-bottom-width: 1px;
   font-size: 0.75rem;
   line-height: 1rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+}
+
+table tr:last-child td {
+  border-style: none;
 }
 
 .form-feedback {

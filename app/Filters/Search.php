@@ -17,10 +17,12 @@ class Search extends Filter
     {
         $search = request($this->filterName());
 
-        $builder = $builder->where($this->fields[0], 'like', "%$search%");
-        for($i = 1; $i < count($this->fields); $i++) {
-            $builder = $builder->orWhere($this->fields[$i], 'like', "%$search%");
-        }
+        $builder = $builder->where(function($query) use ($search) {
+            $query->where($this->fields[0], 'like', "%$search%");
+            for($i = 1; $i < count($this->fields); $i++) {
+                $query->orWhere($this->fields[$i], 'like', "%$search%");
+            }
+        });
         return $builder;
     }
 }

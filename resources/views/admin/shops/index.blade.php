@@ -11,28 +11,7 @@
 
         <div class="card-body">
             <div class="responsive-table-wrapper">
-                <table id="shops_table">
-                    <thead>
-                        <tr>
-                            <td data-field="name">@lang('Name')</td>
-                            <td data-field="username">@lang('Username')</td>
-                            <td data-field="email">@lang('Email')</td>
-                            <td data-field="phone">@lang('Phone')</td>
-                            <td>@lang('Pending payments')</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($shopUsers as $shopUser)
-                        <tr>
-                            <td>{{ $shopUser->full_name }}</td>
-                            <td>{{ $shopUser->username }}</td>
-                            <td>{{ $shopUser->email }}</td>
-                            <td>{{ $shopUser->phone ?? '-' }}</td>
-                            <td>{{ $shopUser->shop->due_amount }} €</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                @include('admin.shops.table')
             </div>
             <div id="shops_pagination"></div>
         </div>
@@ -109,9 +88,10 @@
     <script>
         let filters = {
             search: '',
-            order_by: 'name',
+            order_by: 'username',
             order_asc: true,
-            page: 1
+            page: 1,
+            per_page: 10
         };
         const columns = [
             {
@@ -137,21 +117,7 @@
         ];
         const table = document.querySelector('#shops_table');
         const searchBox = document.querySelector('.table-search');
-        const headerCells = table.querySelectorAll('thead tr td');
-        const pagination = document.querySelector('#shops_pagination');
-        // refreshTable();
-        headerCells.forEach((el) => {
-            el.addEventListener('click', () => {
-                const orderBy = el.dataset.field;
-                if(filters.order_by == orderBy) {
-                    filters.order_asc = !filters.orderAsc;
-                } else {
-                    filters.order_by = orderBy;
-                    filters.order_asc = true;
-                }
-                refreshTable();
-            });
-        });
+        refreshTable();
         searchBox.addEventListener('keyup', () => {
             const value = searchBox.value;
             if(value.length == 0 || value.length >= 3) {
@@ -160,6 +126,40 @@
             }
         });
 
+        function updateHeaderListeners() {
+            document.querySelectorAll('table thead tr td').forEach((el) => {
+                el.addEventListener('click', () => {
+                    console.log('ordena')
+                    const orderBy = el.dataset.field;
+                    if(filters.order_by == orderBy) {
+                        filters.order_asc = !filters.order_asc;
+                    } else {
+                        filters.order_by = orderBy;
+                        filters.order_asc = true;
+                    }
+
+                    refreshTable();
+                });
+            });
+        }
+
+        function updatePaginationListeners() {
+            document.querySelectorAll('.pagination a').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const query = e.target.href.split('?')[1];
+                    if(query.includes('page=')) {
+                        const goToPage = query.split('page=')[1];
+                        if(parseInt(goToPage) != filters.page) {
+                            filters.page = goToPage;
+                            refreshTable();
+                        }
+                    }
+                    return false;
+                });
+            });
+        }
+
         function refreshTable() {
             axios({
                 method: 'GET',
@@ -167,32 +167,9 @@
                 params: filters
             })
             .then(response => {
-                const data = response.data;
-                const shops = data.data;
-                console.log(data)
-                const tBody = table.querySelector('tbody');
-                tBody.innerHTML = '';
-                for(const row of shops) {
-                    const tr = document.createElement('tr');
-                    for(const column of columns) {
-                        const td = document.createElement('td');
-                        td.innerText = row[column.field];
-                        tr.appendChild(td);
-                    }
-                    tBody.appendChild(tr);
-                }
-                pagination.innerHTML = '';
-                for(const link of data.links) {
-                    const a = document.createElement('a');
-                    a.innerText = link.label;
-                    a.classList.add('pagination-link');
-                    a.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        filters.page = link.label;
-                        refreshTable();
-                    });
-                    pagination.appendChild(a);
-                }
+                document.querySelector('.responsive-table-wrapper').innerHTML = response.data;
+                updateHeaderListeners();
+                updatePaginationListeners();
             });
         }
     </script>

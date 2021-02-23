@@ -61,7 +61,7 @@ class User extends Authenticatable
                 new Search(['username', 'email'])
             ])
             ->thenReturn()
-            ->paginate(3);
+            ->paginate(request('per_page') ?? 15);
     }
 
     public function getFullNameAttribute()

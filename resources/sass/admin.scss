@@ -139,8 +139,15 @@ body {
                 @apply uppercase font-medium;
             }
         }
-        td {
-            @apply px-6 py-3 text-xs;
+        tr {
+            td {
+                @apply px-6 py-3 text-xs border-b border-gray-200;
+            }
+            &:last-child {
+                td {
+                    @apply border-none;
+                }
+            }
         }
     }
     .form-feedback {

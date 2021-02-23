@@ -15,9 +15,11 @@ class ShopController extends Controller
     public function index()
     {
         if(request()->ajax()) {
-            return User::shops();
+            $shopUsers = User::shops();
+
+            return view('admin.shops.table', compact('shopUsers'));
         }
-        $shopUsers = User::role(Constants::SHOP_ROLE)->get();
+        $shopUsers = User::role(Constants::SHOP_ROLE)->paginate(5);
         return view('admin.shops.index', compact('shopUsers'));
     }
 

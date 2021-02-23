@@ -10,6 +10,10 @@ class HistoricController extends Controller
 {
     public function index()
     {
+        if(request()->ajax()) {
+            $usedCoupons = Coupon::used()->get();
+            return view('admin.historic.table', compact('usedCoupons'));
+        }
         $usedCoupons = Coupon::used()->get();
         return view('admin.historic.index', compact('usedCoupons'));
     }
