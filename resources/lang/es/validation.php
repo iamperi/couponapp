@@ -145,10 +145,16 @@ return [
             'integer' => 'Escribe un número válido',
             'min' => 'Mínimo 1 hora'
         ],
+        'dni' => [
+            'required' => 'Escribe tu D.N.I.'
+        ],
         'email' => [
             'required' => 'Escribe un email',
             'email' => 'Escribe un email válido',
             'unique' => 'Ya existe un usuario con ese email'
+        ],
+        'last_name' => [
+            'required' => 'Escribe tus apellidos'
         ],
         'limit_per_person' => [
             'required' => 'Escribe un número',

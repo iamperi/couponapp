@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -91,7 +92,7 @@ class User extends Authenticatable
     {
         $user = User::where('dni', $data['dni'])->first();
         if(!$user) {
-            $data['username'] = $data['email'];
+            $data['username'] = Str::ascii(Str::snake($data['name'] . ' ' . $data['last_name']));
             $user = User::create($data);
         }
         return $user;

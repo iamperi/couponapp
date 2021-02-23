@@ -17,7 +17,7 @@ require __DIR__.'/auth.php';
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::post('coupons/assign', 'CouponController@assign')->name('coupons.assign')->middleware(['throttle:coupons']);
+Route::post('coupons/assign', 'CouponController@assign')->name('coupons.assign');//->middleware(['throttle:coupons']);
 
 Route::prefix('admin')
         ->name('admin.')

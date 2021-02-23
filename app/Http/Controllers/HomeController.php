@@ -9,7 +9,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $campaign = Campaign::where('active')->first();
+        $campaign = Campaign::where('active', true)->first();
+
         return view('home', compact('campaign'));
     }
 }
