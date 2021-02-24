@@ -17,7 +17,7 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
-    <body class="font-sans antialiased overflow-hidden">
+    <body class="font-sans antialiased overflow-x-hidden">
         <div class="min-h-screen bg-gray-100">
             <header class="flex items-center justify-between w-screen h-20 bg-red-700 px-20">
                 <a href="/">
