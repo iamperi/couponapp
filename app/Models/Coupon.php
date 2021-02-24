@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Constants;
+use App\Filters\OrderBy;
+use App\Filters\Search;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pipeline\Pipeline;
 
 class Coupon extends Model
 {
@@ -12,7 +16,7 @@ class Coupon extends Model
 
     protected $guarded = [];
 
-    protected $dates = ['payed_at', 'used_at'];
+    protected $dates = ['payed_at', 'used_at', 'expires_at'];
 
     public function campaign()
     {
@@ -32,17 +36,30 @@ class Coupon extends Model
     public function assignTo($user)
     {
         $this->user()->associate($user)->save();
+
+        $this->expires_at = Carbon::now()->addHours($this->campaign->coupon_validity);
+
+        $this->save();
+    }
+
+    public function verify()
+    {
+        if(!$this->assigned()) {
+            return [false, __('Coupon is not assigned to any user')];
+        } else if($this->redeemed()) {
+            return [false, __('Coupon is already used')];
+        } else if($this->expired()) {
+            return [false, __('Coupon is expired')];
+        } else {
+            return [true, __('Coupon is valid')];
+        }
     }
 
     public function validate()
     {
         try {
-            if(!$this->assigned()) {
-                return __('Coupon is not assigned to any user');
-            } else if($this->redeemed()) {
-                return __('Coupon is already used');
-            } else if($this->expired()) {
-                return __('Coupon is expired');
+            if(!$this->isValid()) {
+                return false;
             }
             $this->shop()->associate(auth()->user()->shop);
             $this->used_at = Carbon::now();
@@ -68,7 +85,14 @@ class Coupon extends Model
 
     public function expired()
     {
-        return $this->expires_at < Carbon::now();
+        return !is_null($this->expires_at) && $this->expires_at < Carbon::now();
+    }
+
+    public function isValid()
+    {
+        return $this->assigned()
+            && !$this->redeemed()
+            && !$this->expired();
     }
 
     public function pay()
@@ -118,6 +142,19 @@ class Coupon extends Model
             ['used_at', NULL],
             ['user_id', NULL]
         ])->get()->random();
+    }
+
+    public static function filterUsed()
+    {
+        return app(Pipeline::class)
+            ->send(Coupon::whereNotNull('used_at')->join('users', 'coupons.user_id', '=', 'users.id'))
+            ->through([
+                OrderBy::class,
+                new Search(['code']),
+                \App\Filters\Shop::class
+            ])
+            ->thenReturn()
+            ->paginate(request('per_page') ?? 15);
     }
 
     public function scopeUsed($query)

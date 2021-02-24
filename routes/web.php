@@ -18,6 +18,8 @@ require __DIR__.'/auth.php';
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('coupons/assign', 'CouponController@assign')->name('coupons.assign');//->middleware(['throttle:coupons']);
+Route::get('coupons/{coupon}/pdf', 'CouponController@downloadPdf')->name('coupons.pdf');
+Route::get('coupons/{coupon}/image', 'CouponController@downloadImage')->name('coupons.image');
 
 Route::prefix('admin')
         ->name('admin.')
@@ -34,7 +36,8 @@ Route::prefix('admin')
     Route::post('campaigns', 'Admin\CampaignController@store')->name('campaigns.store');
     Route::post('campaigns/{campaign}/toggle', 'Admin\CampaignController@toggle')->name('campaigns.toggle');
 
+    Route::post('coupons/verify', 'Admin\CouponVerificationController@verify')->name('coupons.verify');
     Route::get('coupons/validate', 'Admin\CouponValidationController@index')->name('coupons.validation.index');
-    Route::post('coupons/{coupon}/validate', 'Admin\CouponValidationController@store')->name('coupons.validation.store');
+    Route::post('coupons/{coupon}/validate', 'Admin\CouponValidationController@store')->name('coupons.validate');
     Route::post('coupons/{coupon}/pay', 'Admin\CouponPaymentController@update')->name('coupons.payment.update');
 });

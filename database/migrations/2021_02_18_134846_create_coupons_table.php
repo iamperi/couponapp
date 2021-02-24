@@ -21,7 +21,7 @@ class CreateCouponsTable extends Migration
             $table->foreignId('user_id')->nullable()->constrained();
             $table->double('amount');
             $table->dateTime('used_at')->nullable();
-            $table->dateTime('expires_at');
+            $table->dateTime('expires_at')->nullable();
             $table->dateTime('payed_at')->nullable();
             $table->timestamps();
         });

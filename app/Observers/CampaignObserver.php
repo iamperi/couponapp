@@ -21,7 +21,6 @@ class CampaignObserver
                 'campaign_id' => $campaign->id,
                 'code' => Coupon::newCode($campaign->prefix),
                 'amount' => $campaign->coupon_amount,
-                'expires_at' => Carbon::now()->addHours($campaign->coupon_validity),
             ]);
         }
     }

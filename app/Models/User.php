@@ -97,4 +97,23 @@ class User extends Authenticatable
         }
         return $user;
     }
+
+    public function setNameAttribute($value)
+    {
+        if($value) {
+            $this->attributes['name'] = ucwords(strtolower($value));
+        }
+    }
+
+    public function setLastNameAttribute($value)
+    {
+        if($value) {
+            $this->attributes['last_name'] = ucwords(strtolower($value));
+        }
+    }
+
+    public function setDniAttribute($value)
+    {
+        $this->attributes['dni'] = strtoupper($value);
+    }
 }

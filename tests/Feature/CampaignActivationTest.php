@@ -61,7 +61,21 @@ class CampaignActivationTest extends TestCase
 
         $campaign = $campaign->fresh();
 
-        $this->assertNull($campaign->ends_at);
+        $this->assertFalse($campaign->active);
+    }
+
+    /**
+     * @test
+     */
+    public function only_one_campaign_can_be_active_at_a_time()
+    {
+        $campaign1 = Campaign::factory()->create(['active' => true]);
+        $campaign2 = Campaign::factory()->create();
+
+        $this->actingAs($this->getAdminUser())->post($this->getPostRoute($campaign2));
+
+        $this->assertFalse($campaign1->fresh()->active);
+        $this->assertTrue($campaign2->fresh()->active);
     }
 
     private function getPostRoute($campaign)

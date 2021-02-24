@@ -1,1 +1,1 @@
-<img src="{{ asset('img/mostoles.png') }}" alt="Ayuntamiento de Móstoles" width="300">
+<img src="{{ asset('img/logo-rojo.png') }}" alt="Ayuntamiento de Móstoles" width="300">

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Coupon;
+use Carbon\Carbon;
 
 trait HasCoupons
 {
@@ -21,7 +22,7 @@ trait HasCoupons
 
         $coupon = Coupon::for($campaign);
 
-        $coupon->user()->associate($this)->save();
+        $coupon->assignTo($this);
 
         return $coupon;
     }
@@ -31,5 +32,14 @@ trait HasCoupons
             ['user_id', $this->id],
             ['campaign_id', $campaign->id],
         ])->count();
+    }
+
+    public function hasReachedCampaignLimit($campaign)
+    {
+        $limit = $campaign->limit_per_person;
+
+        $userCoupons = $this->coupons()->where('campaign_id', $campaign->id)->count();
+
+        return $userCoupons == $limit;
     }
 }

@@ -29,6 +29,10 @@ class CampaignController extends Controller
             abort(403);
         }
 
+        if($campaign->active === false) {
+            Campaign::deactivateActiveCampaign();
+        }
+
         $campaign->active = !$campaign->active;
         $campaign->save();
 

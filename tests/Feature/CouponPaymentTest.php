@@ -28,7 +28,11 @@ class CouponPaymentTest extends TestCase
 
         $this->coupon->assignTo(User::factory()->create());
 
-        $this->actingAs($this->getShopUser())->post(route('admin.coupons.validation.store', $this->coupon));
+        $this->coupon->validate();
+
+        $this->coupon->used_at = Carbon::now();
+        $this->coupon->shop_id = Shop::first()->id;
+        $this->coupon->save();
 
         $this->coupon = $this->coupon->fresh();
     }
@@ -38,7 +42,7 @@ class CouponPaymentTest extends TestCase
      */
     public function admin_can_mark_coupon_as_payed()
     {
-//        $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         $this->actingAs($this->getAdminUser())->post($this->getPayRoute($this->coupon));
 

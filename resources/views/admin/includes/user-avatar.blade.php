@@ -9,10 +9,10 @@
         {{ strtoupper(substr($userName, 0, 1)) }}
     </div>
     <ul class="absolute w-60 mt-24 bg-white shadow-lg rounded py-2" x-show="open">
-        <li class="text-left pl-4 py-2 hover:bg-indigo-100">
+        <li class="text-left hover:bg-indigo-100">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="flex items-center">
+                <button type="submit" class="flex items-center w-full outline-none pl-4 py-2">
                     <img src="{{ asset('img/icons/logout.svg') }}" alt="@lang('Logout')" class="mr-2">
                     @lang('Logout')
                 </button>

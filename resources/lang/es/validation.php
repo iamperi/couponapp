@@ -131,6 +131,9 @@ return [
     */
 
     'custom' => [
+        'code' => [
+            'required' => 'Introduce un código de cupón'
+        ],
         'coupon_amount' => [
             'required' => 'Introduce una cantidad',
             'number' => 'Escribe un número válido',
@@ -146,7 +149,8 @@ return [
             'min' => 'Mínimo 1 hora'
         ],
         'dni' => [
-            'required' => 'Escribe tu D.N.I.'
+            'required' => 'Escribe tu D.N.I.',
+            'max' => 'Máximo 9 caracteres'
         ],
         'email' => [
             'required' => 'Escribe un email',
@@ -171,7 +175,8 @@ return [
         ],
         'phone' => [
             'required' => 'Escribe un teléfono',
-            'unique' => 'Ya existe un usuario con ese teléfono'
+            'unique' => 'Ya existe un usuario con ese teléfono',
+            'max' => 'Máximo 9 caracteres'
         ],
         'prefix' => [
             'required' => 'Escribe un prefijo',

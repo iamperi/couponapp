@@ -14,7 +14,11 @@ class Campaign extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
+        'coupon_amount' => 'double',
+        'coupon_count' => 'integer',
+        'coupon_validity' => 'integer',
+        'limit_per_person' => 'integer'
     ];
 
     protected $dates = ['starts_at', 'ends_at'];
@@ -82,5 +86,15 @@ class Campaign extends Model
     public function status()
     {
         return $this->active ? __('Active') : __('Inactive');
+    }
+
+    public static function deactivateActiveCampaign()
+    {
+        $campaign = self::active()->first();
+
+        if($campaign) {
+            $campaign->active = false;
+            $campaign->save();
+        }
     }
 }

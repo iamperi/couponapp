@@ -13,7 +13,6 @@
             <div class="responsive-table-wrapper">
                 @include('admin.shops.table')
             </div>
-            <div id="shops_pagination"></div>
         </div>
     </div>
     <div class="card mt-8">

@@ -1,14 +1,14 @@
-<table>
+<table id="historic_table">
     <thead>
         <tr>
-            <td>@lang('Name')</td>
-            <td>@lang('DNI')</td>
-            <td>@lang('Phone')</td>
-            <td>@lang('Coupon')</td>
-            <td>@lang('Campaign')</td>
-            <td>@lang('Amount')</td>
-            <td>@lang('Used at')</td>
-            <td>
+            <td data-field="users.name">@lang('Name')</td>
+            <td data-field="users.dni">@lang('DNI')</td>
+            <td data-field="users.phone">@lang('Phone')</td>
+            <td data-field="code">@lang('Coupon')</td>
+            <td data-field="campaign.name">@lang('Campaign')</td>
+            <td data-field="amount">@lang('Amount')</td>
+            <td data-field="used_at">@lang('Used at')</td>
+            <td data-field="name">
                 <div class="flex items-center relative" x-data="{ show: false }">
                     <label>@lang('Status')</label>
                     <img src="{{ asset('img/icons/help.svg') }}"
@@ -25,15 +25,15 @@
     <tbody>
         @foreach($usedCoupons as $coupon)
         <tr>
-            <td>{{ $coupon->user->username }}</td>
+            <td>{{ $coupon->user->full_name }}</td>
             <td>{{ $coupon->user->dni }}</td>
             <td>{{ $coupon->user->phone }}</td>
             <td>{{ $coupon->code }}</td>
             <td>{{ $coupon->campaign->name }}</td>
-            <td>{{ $coupon->amount }}</td>
+            <td>{{ $coupon->amount }}€</td>
             <td class="flex flex-col items-start">
-                {{ $coupon->used_at->format('d/m/Y H:i:s') }}
                 <x-badge class="badge-indigo">{{ $coupon->shop->name }}</x-badge>
+                {{ $coupon->used_at->format('d/m/Y H:i:s') }}
             </td>
             <td x-data="{}">
                 <form method="POST" action="{{ route('admin.coupons.payment.update', $coupon) }}">

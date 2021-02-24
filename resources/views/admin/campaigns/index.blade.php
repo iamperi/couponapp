@@ -166,23 +166,35 @@
             <div class="active-campaigns grid grid-cols-4 mt-2">
                 @foreach($activeCampaigns as $campaign)
                     <div class="flex inline-flex flex-col border p-6 rounded shadow m-2 {{ $campaign->active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' }}">
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-between items-start">
                             <div class="flex flex-col">
                                 <span class="uppercase text-gray-400" style="font-size: .6rem;">@lang('Campaign')</span>
                                 <label class="font-medium">{{ $campaign->name }}</label>
+                                <span class="text-xs text-gray-500">
+                                    @lang('From'):
+                                    {{ $campaign->starts_at->format('d/m/Y H:i') }}
+                                </span>
+                                <span class="text-xs text-gray-500">
+                                    @lang('Until'):
+                                    @if($campaign->ends_at)
+                                    {{ $campaign->ends_at->format('d/m/Y H:i') }}
+                                    @else
+                                    @lang('No date')
+                                    @endif
+                                </span>
                             </div>
                             <x-badge class="{{ $campaign->active ? 'badge-green' : 'badge-red' }}">
                                  {{ $campaign->status() }}
                             </x-badge>
                         </div>
-                        <div class="mt-2">
-                            <label>
+                        <div class="flex flex-col mt-2">
+                            <label class="text-sm">
                                 {{ $campaign->coupon_count }} <span class="lowercase">@lang('Coupons')</span>
                                 ({{ $campaign->usedCouponCount() }} <span class="lowercase">@lang('Used')</span>)
                             </label>
-                            <label>@lang('Amount'): {{ $campaign->coupon_amount }} €</label>
-                            <label>@lang('Valid for') {{ $campaign->coupon_validity }} <span class="lowercase">@lang('Hours')</span></label>
-                            <form method="POST" action="{{ route('admin.campaigns.toggle', $campaign) }}">
+                            <label class="text-sm">@lang('Amount'): {{ $campaign->coupon_amount }} €</label>
+                            <label class="text-sm">@lang('Valid for') {{ $campaign->coupon_validity }} <span class="lowercase">@lang('Hours')</span></label>
+                            <form method="POST" action="{{ route('admin.campaigns.toggle', $campaign) }}" class="mt-4">
                                 @csrf
                                 @if($campaign->active)
                                     <button class="btn btn-xs btn-red">@lang('Deactivate')</button>

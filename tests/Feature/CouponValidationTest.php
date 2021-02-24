@@ -37,11 +37,12 @@ class CouponValidationTest extends TestCase
      */
     public function a_user_can_validate_a_coupon()
     {
-//        $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
-        $this->actingAs($this->getShopUser())->post($this->getVerifyRouteFor($this->coupon));
+        $this->actingAs($this->getShopUser())->post($this->getValidationRoute($this->coupon));
 
         $coupon = $this->coupon->fresh();
+
         $this->assertNotNull($coupon->used_at);
     }
 
@@ -52,7 +53,7 @@ class CouponValidationTest extends TestCase
     {
         $user = $this->getAdminUser(); // Admin users can't validate coupons
 
-        $response = $this->actingAs($user)->post($this->getVerifyRouteFor($this->coupon));
+        $response = $this->actingAs($user)->post($this->getValidationRoute($this->coupon));
 
         $response->assertForbidden();
     }
@@ -66,7 +67,7 @@ class CouponValidationTest extends TestCase
 
         $shopUser = $this->getShopUser();
 
-        $this->actingAs($shopUser)->post($this->getVerifyRouteFor($this->coupon));
+        $this->actingAs($shopUser)->post($this->getValidationRoute($this->coupon));
 
         $coupon = $this->coupon->fresh();
         $this->assertEquals($shopUser->shop->id, $coupon->shop_id);
@@ -80,7 +81,7 @@ class CouponValidationTest extends TestCase
         $this->coupon->user_id = NULL;
         $this->coupon->save();
 
-        $this->actingAs($this->getShopUser())->post($this->getVerifyRouteFor($this->coupon));
+        $this->actingAs($this->getShopUser())->post($this->getValidationRoute($this->coupon));
 
         $coupon = $this->coupon->fresh();
         $this->assertNull($coupon->used_at);
@@ -94,7 +95,7 @@ class CouponValidationTest extends TestCase
         $this->coupon->expires_at = Carbon::now()->subDay();
         $this->coupon->save();
 
-        $this->actingAs($this->getShopUser())->post($this->getVerifyRouteFor($this->coupon));
+        $this->actingAs($this->getShopUser())->post($this->getValidationRoute($this->coupon));
 
         $coupon = $this->coupon->fresh();
         $this->assertNull($coupon->used_at);
@@ -105,13 +106,15 @@ class CouponValidationTest extends TestCase
      */
     public function a_coupon_can_only_be_used_once()
     {
-        $this->actingAs($this->getShopUser())->post($this->getVerifyRouteFor($this->coupon));
+//        $this->withoutExceptionHandling();
 
-        $response = $this->actingAs($this->getShopUser())->post($this->getVerifyRouteFor($this->coupon));
+        $this->actingAs($this->getShopUser())->post($this->getValidationRoute($this->coupon));
 
-        $response->assertJsonFragment([
-            'status' => 'error'
-        ]);
+        $response = $this->actingAs($this->getShopUser())
+            ->followingRedirects()
+            ->post($this->getValidationRoute($this->coupon));
+
+        $response->assertSee(__('An error ocurred while validating coupon'));
     }
 
     /**
@@ -119,15 +122,42 @@ class CouponValidationTest extends TestCase
      */
     public function shops_due_amount_is_updated_when_a_coupon_is_validated()
     {
-        $this->actingAs($this->getShopUser())->post($this->getVerifyRouteFor($this->coupon));
+        $this->actingAs($this->getShopUser())->post($this->getValidationRoute($this->coupon));
 
         $coupon = $this->coupon->fresh();
         $this->assertEquals($coupon->amount, $coupon->shop->due_amount);
     }
 
-    private function getVerifyRouteFor($coupon)
+    /**
+     * @test
+     */
+    public function success_message_is_shown_when_a_coupon_is_validated()
     {
-        return route('admin.coupons.validation.store', ['coupon' => $coupon]);
+        $response = $this->actingAs($this->getShopUser())
+            ->followingRedirects()
+            ->post($this->getValidationRoute($this->coupon));
+
+        $response->assertSee(__('Coupon has been validated'));
+    }
+
+    /**
+     * @test
+     */
+    public function error_message_is_shown_when_a_coupon_is_not_validated()
+    {
+        $this->coupon->user_id = NULL;
+        $this->coupon->save();
+
+        $response = $this->actingAs($this->getShopUser())
+            ->followingRedirects()
+            ->post($this->getValidationRoute($this->coupon));
+
+        $response->assertSee(__('An error ocurred while validating coupon'));
+    }
+
+    private function getValidationRoute($coupon)
+    {
+        return route('admin.coupons.validate', ['coupon' => $coupon]);
     }
 
     private function getAdminUser()

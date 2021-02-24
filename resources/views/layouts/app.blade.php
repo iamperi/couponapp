@@ -12,11 +12,12 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        @stack('css')
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased overflow-hidden">
         <div class="min-h-screen bg-gray-100">
             <header class="flex items-center justify-between w-screen h-20 bg-red-700 px-20">
                 <a href="/">
@@ -39,6 +40,11 @@
             </header>
 
             <main class="my-10">
+                @if(session('error'))
+                    <div class="bg-red-100 text-red-600 text-center border-2 border-red-400 p-2 m-6 rounded shadow">
+                        <label>{{session('error')}}</label>
+                    </div>
+                @endif
                 {{ $slot }}
             </main>
 

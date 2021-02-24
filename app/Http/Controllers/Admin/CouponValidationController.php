@@ -10,7 +10,10 @@ class CouponValidationController extends Controller
 {
     public function index()
     {
-        return view('admin.coupons.validate');
+        try {
+            $coupon = Coupon::find(session('couponId'));
+        } catch(\Exception $e) {}
+        return view('admin.coupons.validate', compact('coupon'));
     }
 
     public function store(Coupon $coupon)
@@ -21,16 +24,9 @@ class CouponValidationController extends Controller
 
         $validated = $coupon->validate();
 
-        if(is_bool($validated) && $validated) {
-            return [
-                'status' => 'ok',
-                'msg' => 'Todo correcto'
-            ];
-        } else {
-            return [
-                'status' => 'error',
-                'msg' => $validated
-            ];
-        }
+        $response = $validated ? 'success' : 'error';
+        $message = $validated ? __('Coupon has been validated') : __('An error ocurred while validating coupon');
+
+        return redirect(route('admin.coupons.validation.index'))->with($response, $message);
     }
 }

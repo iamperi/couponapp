@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GetCouponRequest;
 use App\Models\Campaign;
+use App\Models\Coupon;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class CouponController extends Controller
 {
@@ -15,10 +17,20 @@ class CouponController extends Controller
 
         $campaign = Campaign::findOrFail(request('campaign_id'));
 
+        if($user->hasReachedCampaignLimit($campaign)) {
+            return redirect()->back()->with('error', __('You have reached the coupon limit for this campaign'));
+        }
+
         $coupon = $user->assignCoupon($campaign);
 
-        if(!$coupon) {
-            return redirect()->back();
-        }
+        return redirect(route('home'))->with('couponId', $coupon->id);
+    }
+
+    public function downloadPdf(Coupon $coupon)
+    {
+//        return view('coupon', compact('coupon'));
+        $pdf = PDF::loadView('coupon', compact('coupon'));
+
+        return $pdf->download('cupon.pdf');
     }
 }

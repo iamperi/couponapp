@@ -16,6 +16,12 @@ class GetCouponRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->dni = str_replace(' ', '', $this->dni);
+        $this->phone = str_replace(' ', '', $this->phone);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,8 +33,8 @@ class GetCouponRequest extends FormRequest
             'campaign_id' => 'exists:campaigns,id',
             'name' => 'required',
             'last_name' => 'required',
-            'dni' => 'required',
-            'phone' => 'required',
+            'dni' => 'required|max:9',
+            'phone' => 'required|max:9',
             'email' => 'nullable|email'
         ];
     }
