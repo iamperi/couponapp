@@ -18,7 +18,7 @@
         <form method="POST" action="{{ route('admin.campaigns.store') }}">
             @csrf
             <input type="hidden" name="redirect" :value="redirectUrl">
-            <div class="grid grid-cols-2 gap-x-6">
+            <div class="grid grid-col-1 sm:grid-cols-2 gap-x-6">
                 <div class="input-group">
                     <label>@lang('Campaign name') *</label>
                     <input type="text" name="name" class="textbox @error('name') invalid @enderror" value="{{ old('name') }}" maxlength="64">
@@ -163,9 +163,9 @@
         </div>
         <div class="card-body">
             @if($activeCampaigns->count() > 0)
-            <div class="active-campaigns grid grid-cols-4 mt-2">
+            <div class="active-campaigns grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-2">
                 @foreach($activeCampaigns as $campaign)
-                    <div class="flex inline-flex flex-col border p-6 rounded shadow m-2 {{ $campaign->active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' }}">
+                    <div class="flex inline-flex flex-col min-w-full border p-6 rounded shadow m-2 {{ $campaign->active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' }}">
                         <div class="flex justify-between items-start">
                             <div class="flex flex-col">
                                 <span class="uppercase text-gray-400" style="font-size: .6rem;">@lang('Campaign')</span>

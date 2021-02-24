@@ -12,7 +12,7 @@ class CampaignController extends Controller
 {
     public function index()
     {
-        $activeCampaigns = Campaign::nonFinished()->get();
+        $activeCampaigns = Campaign::notFinished()->get();
         return view('admin.campaigns.index', compact('activeCampaigns'));
     }
 

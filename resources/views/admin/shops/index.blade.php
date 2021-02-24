@@ -22,7 +22,7 @@
 
         <form method="POST" action="{{ route('admin.shops.store') }}" x-data="{ name: '{{ old('name') }}', usernameChanged: false}">
             @csrf
-            <div class="grid grid-cols-2 gap-x-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
                 <div class="input-group">
                     <label>@lang('Name')</label>
                     <input type="text"

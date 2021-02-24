@@ -10,6 +10,7 @@
         </div>
 
         <div class="card-body">
+            @admin
             <div class="flex flex-col">
                 <label class="text-xs text-gray-300 uppercase">@lang('Filters')</label>
                 <div class="mt-2 mb-6">
@@ -19,8 +20,15 @@
                         <option value="{{ $shop->id }}">{{ $shop->name }}</option>
                         @endforeach
                     </select>
+                    <select id="campaign" class="pl-4 pr-8 py-2 text-xs rounded border border-gray-400">
+                        <option value="">@lang('Select a campaign')</option>
+                        @foreach($notFinishedCampaigns as $campaign)
+                        <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+            @endadmin
             <div class="responsive-table-wrapper">
                 @include('admin.historic.table')
             </div>
@@ -32,6 +40,7 @@
         let filters = {
             search: '',
             shop: '',
+            campaign: '',
             order_by: 'code',
             order_asc: true,
             page: 1,
@@ -62,6 +71,7 @@
         const table = document.querySelector('#historic_table');
         const searchBox = document.querySelector('.table-search');
         const shopSelect = document.querySelector('#shop');
+        const campaignSelect = document.querySelector('#campaign');
 
         refreshTable();
 
@@ -75,6 +85,12 @@
 
         shopSelect.addEventListener('change', function() {
             filters.shop = shopSelect.value;
+
+            refreshTable();
+        });
+
+        campaignSelect.addEventListener('change', function() {
+            filters.campaign = campaignSelect.value;
 
             refreshTable();
         });

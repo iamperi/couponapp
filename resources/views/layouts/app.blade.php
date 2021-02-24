@@ -19,12 +19,14 @@
     </head>
     <body class="font-sans antialiased overflow-x-hidden">
         <div class="min-h-screen bg-gray-100">
-            <header class="flex items-center justify-between w-screen h-20 bg-red-700 px-20">
+            <header class="relative flex items-center justify-between w-screen h-20 bg-red-700 px-12 sm:px-20"
+                    x-data="{mobileMenuOpen: false}"
+            >
                 <a href="/">
                     <img src="{{ asset('img/logo-blanco.png') }}" alt="Logo Móstoles" />
                 </a>
 
-                <nav>
+                <nav class="hidden md:block">
                     <ul class="flex list-none">
                         <li class="text-white no-underline ml-6">
                             <a href="https://mostoleapp.com/shop">Ofertas y Descuentos</a>
@@ -37,9 +39,26 @@
                         </li>
                     </ul>
                 </nav>
+                <div class="block md:hidden" @click="mobileMenuOpen = !mobileMenuOpen">
+                    <img src="{{ asset('img/icons/notes-white.svg') }}" class="w-8 cursor-pointer">
+                </div>
+                <nav class="block md:hidden absolute w-full bg-red-700 top-0 left-0 mt-20 py-4 border-t-2 border-red-800 shadow-lg"
+                     x-show="mobileMenuOpen">
+                    <ul class="flex flex-col list-none">
+                        <li class="text-white text-lg no-underline ml-6 py-2">
+                            <a href="https://mostoleapp.com/shop">Ofertas y Descuentos</a>
+                        </li>
+                        <li class="text-white text-lg no-underline ml-6 py-2">
+                            <a href="https://mostoleapp.com/blog">Blog</a>
+                        </li>
+                        <li class="text-white text-lg no-underline ml-6 py-2">
+                            <a href="https://mostoleapp.com/micuenta">Entrar</a>
+                        </li>
+                    </ul>
+                </nav>
             </header>
 
-            <main class="my-10">
+            <main class="my-10 px-8 md:mx-0">
                 @if(session('error'))
                     <div class="bg-red-100 text-red-600 text-center border-2 border-red-400 p-2 m-6 rounded shadow">
                         <label>{{session('error')}}</label>
@@ -49,8 +68,8 @@
             </main>
 
             <footer class="mt-4 w-full text-white">
-                <div class="flex p-12 bg-red-700">
-                    <div class="w-2/5 px-8">
+                <div class="flex flex-col md:flex-row px-0 py-12 md:p-12 bg-red-700">
+                    <div class="w-full md:w-2/5 px-8">
                         <div>
                             <img src="{{ asset('img/logo-blanco.png') }}" alt="Logo Móstoles" class="h-6" />
                         </div>
@@ -66,8 +85,8 @@
                             Para más información: 916 85 30 90 / info@mostoleapp.com
                         </p>
                     </div>
-                    <div class="flex w-3/5 px-8">
-                        <div class="flex flex-col w-1/2">
+                    <div class="flex w-full md:w-3/5 px-8 mt-8 md:mt-0">
+                        <div class="flex flex-col w-1/2 mr-4">
                             <h6 class="text-sm font-normal mb-4">INFORMACIÓN</h6>
                             <a href="#" class="mb-2 text-sm">Cómo instalar nuestra App PWA</a>
                             <a href="#" class="mb-2 text-sm">Ofertas y cupones</a>
@@ -77,7 +96,7 @@
                             <a href="#" class="mb-2 text-sm">Política de privacidad</a>
                         </div>
 
-                        <div class="flex flex-col w-1/2">
+                        <div class="flex flex-col w-1/2 ml-4">
                             <h6 class="text-sm font-normal mb-4">AYUDA</h6>
                             <a href="#" class="mb-2 text-sm">¿Cómo funciona?</a>
                             <a href="#" class="mb-2 text-sm">Preguntas frecuentes</a>
@@ -88,10 +107,10 @@
                 </div>
 
                 <div class="flex flex-wrap w-full bg-gray-900 text-blue-100 px-8 py-6">
-                    <div class="flex flex-wrap justify-between w-full mx-auto px-8 max-w-7xl">
+                    <div class="flex flex-col sm:flex-row justify-between items-center w-full mx-auto px-8 max-w-7xl">
                         <samp class="text-xs">Copyright mostoleapp © 2021. All Rights Reserved</samp>
-                        <ul class="flex items-center">
-                            <a href="https://www.facebook.com/mostoles.desarrollo/" class="ml-4">
+                        <ul class="flex items-center mt-8 sm:mt-0">
+                            <a href="https://www.facebook.com/mostoles.desarrollo/" class="">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0)">
                                         <path

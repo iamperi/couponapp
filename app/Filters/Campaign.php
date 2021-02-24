@@ -2,12 +2,12 @@
 
 namespace App\Filters;
 
-class Shop extends Filter
+class Campaign extends Filter
 {
     protected function applyFilter($builder)
     {
         if(!empty(request($this->filterName()))) {
-            return $builder->where('shop_id', request($this->filterName()));
+            return $builder->where('campaign_id', request($this->filterName()));
         }
         return $builder;
     }

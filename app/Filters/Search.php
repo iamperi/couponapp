@@ -2,8 +2,6 @@
 
 namespace App\Filters;
 
-use Closure;
-
 class Search extends Filter
 {
     private $fields;

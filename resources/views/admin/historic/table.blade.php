@@ -11,10 +11,12 @@
             <td data-field="name">
                 <div class="flex items-center relative" x-data="{ show: false }">
                     <label>@lang('Status')</label>
+                    @admin
                     <img src="{{ asset('img/icons/help.svg') }}"
                          class="w-5 ml-2 cursor-pointer"
                          @click="show = !show"
                          @click.away="show = false">
+                    @endadmin
                     <div class="absolute w-32 rounded bg-white shadow-lg mt-24 p-2" x-show="show">
                         <label class="text-xs normal-case">@lang('Inline mark as payed')</label>
                     </div>
@@ -36,6 +38,7 @@
                 {{ $coupon->used_at->format('d/m/Y H:i:s') }}
             </td>
             <td x-data="{}">
+                @admin
                 <form method="POST" action="{{ route('admin.coupons.payment.update', $coupon) }}">
                     @csrf
                     <a href="javascript:void(0);" @click="$event.target.closest('form').submit()">
@@ -44,6 +47,11 @@
                         </x-badge>
                     </a>
                 </form>
+                @else
+                <x-badge class="{{ $coupon->payed_at ? 'badge-green' : 'badge-red' }}">
+                    {!! $coupon->payedStatus() !!}
+                </x-badge>
+                @endadmin
                 @if($coupon->payed_at)<span class="text-xs">{{ $coupon->payed_at->format('d/m/Y H:i:s') }}</span> @endif
             </td>
         </tr>

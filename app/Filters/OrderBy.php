@@ -2,8 +2,6 @@
 
 namespace App\Filters;
 
-use Closure;
-
 class OrderBy extends Filter
 {
     protected function applyFilter($builder)
