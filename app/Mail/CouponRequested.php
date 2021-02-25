@@ -38,7 +38,7 @@ class CouponRequested extends Mailable
                 'coupon' => $this->coupon,
                 'user' => $this->user
             ])
-            ->subject(env('APP_NAME') . '-' . __('Your coupon'))
+            ->subject(env('APP_NAME') . ' - ' . __('Your coupon'))
             ->attach($this->coupon->getPdfPath(), [
                 'as' => 'tu-cupon.pdf',
                 'mime' => 'application/pdf'
