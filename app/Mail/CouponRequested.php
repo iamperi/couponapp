@@ -35,11 +35,13 @@ class CouponRequested extends Mailable
     public function build()
     {
         return $this->markdown('emails.coupons.requested',[
-            'coupon' => $this->coupon,
-            'user' => $this->user
-        ])->attach($this->coupon->getPdfPath(), [
-            'as' => 'tu-cupon.pdf',
-            'mime' => 'application/pdf'
-        ]);
+                'coupon' => $this->coupon,
+                'user' => $this->user
+            ])
+            ->subject(env('APP_NAME') . '-' . __('Your coupon'))
+            ->attach($this->coupon->getPdfPath(), [
+                'as' => 'tu-cupon.pdf',
+                'mime' => 'application/pdf'
+            ]);
     }
 }
