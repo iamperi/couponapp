@@ -10,10 +10,10 @@
                 <h4 class="text-2xl text-green-400 mt-6">{{ $campaign->name }}</h4>
 
                 <div class="mt-8">
-                    <h6 class="text-red-500">Recuerde las reglas:</h6>
+                    <h6 class="text-red-500">Recuerda las reglas:</h6>
                     <ul class="Coupon__rules_list">
                         <li class="text-sm">
-                            - Utilice su cupón antes de {{ $campaign->coupon_validity }} horas en cualquier
+                            - Utiliza tu cupón antes de {{ $campaign->coupon_validity }} horas en cualquier
                             <a href="#">tienda asociada</a>
                         </li>
                         <li class="text-sm">- Puedes conseguir {{ $campaign->limit_per_person }} cupones para esta campaña</li>

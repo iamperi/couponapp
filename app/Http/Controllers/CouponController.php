@@ -9,11 +9,9 @@ use App\Models\Coupon;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 
 class CouponController extends Controller
 {
-
     public function assign(GetCouponRequest $request)
     {
         $user = NULL;
