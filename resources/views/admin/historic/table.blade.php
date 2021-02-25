@@ -52,7 +52,7 @@
                     {!! $coupon->payedStatus() !!}
                 </x-badge>
                 @endadmin
-                @if($coupon->payed_at)<span class="text-xs">{{ $coupon->payed_at->format('d/m/Y H:i:s') }}</span> @endif
+                @if($coupon->payed_at)<span class="text-xs block">{{ $coupon->payed_at->format('d/m/Y H:i:s') }}</span> @endif
             </td>
         </tr>
         @endforeach

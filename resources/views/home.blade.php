@@ -72,15 +72,17 @@
                 </div>
 
                 <div class="flex flex-col">
-                    <label for="email" class="text-sm">@lang('Email')</label>
+                    <label for="email" class="text-sm">@lang('Email') *</label>
                     <input type="text" name="email" class="rounded-lg py-1 px-2" value="{{ old('email') }}">
                     @error('email')
                     <span class="text-xs text-red-400">{{ $message }}</span>
+                    @else
+                    <span class="text-xs text-gray-400">@lang('We will send your code to this email')</span>
                     @enderror
                 </div>
 
                 <div class="flex flex-col justify-end">
-                    <button class="bg-red-700 rounded-lg text-white w-full px-2 py-1.5">@lang('Get coupon')</button>
+                    <button class="bg-red-700 rounded-lg text-white w-full px-2 py-1.5 mb-4">@lang('Get coupon')</button>
                 </div>
 
                 <div>
@@ -98,12 +100,8 @@
                     @include('coupon', ['coupon' => $coupon])
                     <div class="flex items-center justify-center mt-8">
                         <a href="{{ route('coupons.pdf', $coupon) }}" class="flex items-center mr-4">
-                            <img src="{{ asset('img/icons/pdf.svg') }}" alt="PDF" class="w-8">
-                            <label class="ml-2 text-xs">@lang('Download PDF')</label>
-                        </a>
-                        <a href="{{ route('coupons.image', $coupon) }}" class="flex items-center ml-4">
-                            <img src="{{ asset('img/icons/image.svg') }}" alt="JPG" class="w-8">
-                            <label class="ml-2 text-xs">@lang('Download JPG')</label>
+                            <img src="{{ asset('img/icons/save.svg') }}" alt="PDF" class="w-8">
+                            <label class="ml-2 text-sm cursor-pointer">@lang('Download PDF')</label>
                         </a>
                     </div>
                 </div>

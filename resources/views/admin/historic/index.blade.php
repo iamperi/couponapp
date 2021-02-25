@@ -12,20 +12,26 @@
         <div class="card-body">
             @admin
             <div class="flex flex-col">
-                <label class="text-xs text-gray-300 uppercase">@lang('Filters')</label>
+                <label class="text-xs text-gray-300 uppercase tracking-widest">@lang('Filters')</label>
                 <div class="mt-2 mb-6">
-                    <select id="shop" class="pl-4 pr-8 py-2 text-xs rounded border border-gray-400">
-                        <option value="">@lang('Select a shop')</option>
-                        @foreach($shops as $shop)
-                        <option value="{{ $shop->id }}">{{ $shop->name }}</option>
-                        @endforeach
-                    </select>
-                    <select id="campaign" class="pl-4 pr-8 py-2 text-xs rounded border border-gray-400">
-                        <option value="">@lang('Select a campaign')</option>
-                        @foreach($notFinishedCampaigns as $campaign)
-                        <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
-                        @endforeach
-                    </select>
+                    <div class="inline-flex flex-col">
+                        <label class="text-xs text-gray-400">@lang('Shop')</label>
+                        <select id="shop" class="pl-4 pr-8 py-2 text-xs rounded border border-gray-400">
+                            <option value="">@lang('Select a shop')</option>
+                            @foreach($shops as $shop)
+                            <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="inline-flex flex-col ml-4">
+                        <label class="text-xs text-gray-400">@lang('Campaign')</label>
+                        <select id="campaign" class="pl-4 pr-8 py-2 text-xs rounded border border-gray-400">
+                            <option value="">@lang('Select a campaign')</option>
+                            @foreach($notFinishedCampaigns as $campaign)
+                            <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
             @endadmin

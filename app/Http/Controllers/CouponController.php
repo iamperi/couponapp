@@ -3,17 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GetCouponRequest;
+use App\Mail\CouponRequested;
 use App\Models\Campaign;
 use App\Models\Coupon;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CouponController extends Controller
 {
 
     public function assign(GetCouponRequest $request)
     {
-        $user = User::getCitizen(request()->only(['name', 'last_name', 'dni', 'phone', 'email']));
+        $user = NULL;
+        try {
+            $user = User::getCitizen(request()->only(['name', 'last_name', 'dni', 'phone', 'email']));
+        } catch(\Exception $e) {
+            logger()->info($e);
+            return redirect(route('home'))->with('error', __('Sorry... We could not get you a coupon, try again later'));
+        }
 
         $campaign = Campaign::findOrFail(request('campaign_id'));
 
@@ -23,7 +32,25 @@ class CouponController extends Controller
 
         $coupon = $user->assignCoupon($campaign);
 
-        return redirect(route('home'))->with('couponId', $coupon->id);
+        if($coupon) {
+            try {
+                PDF::loadView('coupon', compact('coupon'))
+                    ->save($coupon->getPdfPath());
+
+                Mail::to($user)->send(new CouponRequested($coupon, $user));
+
+                unlink($coupon->getPdfPath());
+
+                return redirect(route('home'))->with('couponId', $coupon->id);
+            } catch(\Exception $e) {
+                if($coupon) {
+                    $coupon->unassign();
+                }
+                return redirect(route('home'))->with('error', __('Sorry... We could not get you a coupon, try again later'));
+            }
+        }
+
+        return redirect(route('home'))->with('error', __('Sorry... There are no coupons left for this campaign'));
     }
 
     public function downloadPdf(Coupon $coupon)
@@ -31,6 +58,6 @@ class CouponController extends Controller
 //        return view('coupon', compact('coupon'));
         $pdf = PDF::loadView('coupon', compact('coupon'));
 
-        return $pdf->download('cupon.pdf');
+        return $pdf->download('tu-cupon.pdf');
     }
 }

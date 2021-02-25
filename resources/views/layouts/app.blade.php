@@ -88,19 +88,19 @@
                     <div class="flex w-full md:w-3/5 px-8 mt-8 md:mt-0">
                         <div class="flex flex-col w-1/2 mr-4">
                             <h6 class="text-sm font-normal mb-4">INFORMACIÓN</h6>
-                            <a href="#" class="mb-2 text-sm">Cómo instalar nuestra App PWA</a>
-                            <a href="#" class="mb-2 text-sm">Ofertas y cupones</a>
-                            <a href="#" class="mb-2 text-sm">Artículos y consejos</a>
-                            <a href="#" class="mb-2 text-sm">Solicitud de acceso a datos</a>
-                            <a href="#" class="mb-2 text-sm">Términos del servicio</a>
-                            <a href="#" class="mb-2 text-sm">Política de privacidad</a>
+                            <a href="https://mostoleapp.com/como-instalar-nuestra-app/" class="mb-2 text-sm">Cómo instalar nuestra App PWA</a>
+                            <a href="https://mostoleapp.com/shop/" class="mb-2 text-sm">Ofertas y cupones</a>
+                            <a href="https://mostoleapp.com/blog/" class="mb-2 text-sm">Artículos y consejos</a>
+                            <a href="https://mostoleapp.com/solicitud-de-acceso-a-datos/" class="mb-2 text-sm">Solicitud de acceso a datos</a>
+                            <a href="https://mostoleapp.com/tos/" class="mb-2 text-sm">Términos del servicio</a>
+                            <a href="https://mostoleapp.com/politica-privacidad/" class="mb-2 text-sm">Política de privacidad</a>
                         </div>
 
                         <div class="flex flex-col w-1/2 ml-4">
                             <h6 class="text-sm font-normal mb-4">AYUDA</h6>
-                            <a href="#" class="mb-2 text-sm">¿Cómo funciona?</a>
-                            <a href="#" class="mb-2 text-sm">Preguntas frecuentes</a>
-                            <a href="#" class="mb-2 text-sm">¿Cómo puedo dar de alta mi negocio en la App?</a>
+                            <a href="https://mostoleapp.com/how-it-works/" class="mb-2 text-sm">¿Cómo funciona?</a>
+                            <a href="https://mostoleapp.com/preguntas-frecuentes" class="mb-2 text-sm">Preguntas frecuentes</a>
+                            <a href="https://mostoleapp.com/soy-comerciante/" class="mb-2 text-sm">¿Cómo puedo dar de alta mi negocio en la App?</a>
                         </div>
 
                     </div>

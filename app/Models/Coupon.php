@@ -6,6 +6,7 @@ use App\Constants;
 use App\Filters\OrderBy;
 use App\Filters\Search;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pipeline\Pipeline;
@@ -39,7 +40,16 @@ class Coupon extends Model
 
         $this->expires_at = Carbon::now()->addHours($this->campaign->coupon_validity);
 
-        $this->save();
+        return $this->save();
+    }
+
+    public function unassign()
+    {
+        $this->user()->dissociate();
+
+        $this->expires_at = NULL;
+
+        return $this->save();
     }
 
     public function verify()
@@ -120,6 +130,12 @@ class Coupon extends Model
         return $this->payed_at ? __('Payed') : __('Unpayed');
     }
 
+    public function getPdfPath()
+    {
+        $filename = $this->code . '.pdf';
+        return storage_path("app/coupons/pdf/$filename");
+    }
+
     public static function newCode($prefix)
     {
         $codeExists = false;
@@ -137,18 +153,54 @@ class Coupon extends Model
 
     public static function for($campaign)
     {
-        return static::where([
+        $availableCoupons = static::where([
             ['campaign_id', $campaign->id],
             ['used_at', NULL],
             ['user_id', NULL]
-        ])->get()->random();
+        ])->get();
+
+        if($availableCoupons->count() > 0) {
+            return $availableCoupons->random();
+        } else {
+            return static::injectNewCouponFor($campaign);
+        }
+    }
+
+    public static function injectNewCouponFor($campaign)
+    {
+        $maxCoupons = $campaign->coupon_count;
+
+        $invalidCouponCount = $campaign->coupons()->unused()->expired()->count();
+
+        if($invalidCouponCount > 0) {
+            $validCouponCount = $campaign->coupons()
+                ->where(function($query) {
+                    $query->whereNotNull('used_at')
+                        ->orWhere(function($query2) {
+                            $query2->whereNotNull('user_id')
+                                ->where('expires_at', '>=', Carbon::now());
+                        });
+                })->count();
+
+//            dd($maxCoupons, $validCouponCount, $invalidCouponCount);
+
+            if($validCouponCount < $maxCoupons) {
+                return Coupon::create([
+                    'campaign_id' => $campaign->id,
+                    'code' => Coupon::newCode($campaign->prefix),
+                    'amount' => $campaign->coupon_amount,
+                ]);
+            }
+        }
+
+        return NULL;
     }
 
     public static function filterUsed()
     {
         $query = Coupon::whereNotNull('used_at')->join('users', 'coupons.user_id', '=', 'users.id');
         if(auth()->user()->hasRole(Constants::SHOP_ROLE)) {
-            $query = $query->where('shop_id', auth()->user()->id);
+            $query = $query->where('shop_id', auth()->user()->shop->id);
         }
         return app(Pipeline::class)
             ->send($query)
@@ -165,6 +217,21 @@ class Coupon extends Model
     public function scopeUsed($query)
     {
         return $query->whereNotNull('used_at');
+    }
+
+    public function scopeUnused($query)
+    {
+        return $query->whereNull('used_at')->whereNull('shop_id');
+    }
+
+    public function scopeAssigned($query)
+    {
+        return $query->whereNotNull('user_id');
+    }
+
+    public function scopeExpired($query)
+    {
+        return $query->where('expires_at', '<', Carbon::now());
     }
 
     public function getRouteKeyName()

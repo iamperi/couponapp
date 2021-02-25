@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use App\Rules\Dni;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class GetCouponRequest extends FormRequest
 {
@@ -33,9 +36,25 @@ class GetCouponRequest extends FormRequest
             'campaign_id' => 'exists:campaigns,id',
             'name' => 'required',
             'last_name' => 'required',
-            'dni' => 'required|max:9',
+            'dni' => ['required', 'alpha_num', 'max:9', new Dni()],
             'phone' => 'required|max:9',
-            'email' => 'nullable|email'
+            'email' => 'required|email'
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function($validator) {
+            if(User::where('phone', $this->phone)->where(function($query) {
+                    $query->whereNull('dni')->orWhere('dni', '!=', $this->dni);
+                })->exists()) {
+                $validator->errors()->add('phone', __('validation.custom.phone.unique'));
+            }
+            if(User::where('email', $this->email)->where(function($query) {
+                    $query->whereNull('dni')->orWhere('dni', '!=', $this->dni);
+                })->exists()) {
+                $validator->errors()->add('email', __('validation.custom.email.unique'));
+            }
+        });
     }
 }

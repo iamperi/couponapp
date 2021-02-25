@@ -22,9 +22,14 @@ trait HasCoupons
 
         $coupon = Coupon::for($campaign);
 
-        $coupon->assignTo($this);
+        if($coupon) {
+            $assigned = $coupon->assignTo($this);
 
-        return $coupon;
+            return $assigned ? $coupon : NULL;
+        } else {
+            return NULL;
+        }
+
     }
 
     public function couponsFor($campaign) {

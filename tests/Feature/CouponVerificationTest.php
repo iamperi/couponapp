@@ -52,7 +52,18 @@ class CouponVerificationTest extends TestCase
      */
     public function a_code_is_required_to_verify_a_coupon()
     {
-        
+        Campaign::factory()->create();
+
+        $coupon = Coupon::first();
+
+        $coupon->assignTo(User::factory()->create());
+
+        $response = $this->actingAs($this->getShopUser())
+            ->post($this->verificationRoute, [
+                'code' => ''
+            ]);
+
+        $response->assertSessionHasErrorsIn('code');
     }
 
     /**

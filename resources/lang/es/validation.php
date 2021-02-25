@@ -150,7 +150,8 @@ return [
         ],
         'dni' => [
             'required' => 'Escribe tu D.N.I.',
-            'max' => 'Máximo 9 caracteres'
+            'max' => 'Máximo 9 caracteres',
+            'invalid' => 'El D.N.I. no es válido'
         ],
         'email' => [
             'required' => 'Escribe un email',

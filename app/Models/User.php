@@ -92,7 +92,12 @@ class User extends Authenticatable
     {
         $user = User::where('dni', $data['dni'])->first();
         if(!$user) {
-            $data['username'] = Str::ascii(Str::snake($data['name'] . ' ' . $data['last_name']));
+            $username = Str::ascii(Str::snake($data['name'] . ' ' . $data['last_name']));
+            $usernameCount = User::where('username', 'like', $username . '%')->count();
+            if($usernameCount > 0) {
+                $username .= '_' . ($usernameCount + 1);
+            }
+            $data['username'] = $username;
             $user = User::create($data);
         }
         return $user;
