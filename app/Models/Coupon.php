@@ -206,7 +206,7 @@ class Coupon extends Model
             ->send($query)
             ->through([
                 OrderBy::class,
-                new Search(['code']),
+                new Search(['users.dni', 'users.name', 'users.last_name', 'users.phone', 'code']),
                 \App\Filters\Shop::class,
                 \App\Filters\Campaign::class
             ])

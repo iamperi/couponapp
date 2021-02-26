@@ -16,7 +16,6 @@
     }
     .coupon {
         max-width: 28rem;
-        width: 26rem;
         border: 4px solid;
         border-color: rgba(110, 231, 183, 1);
         border-radius: .25rem;

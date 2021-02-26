@@ -1,5 +1,23 @@
 <x-app-layout>
     <div class="w-full text-center">
+        @if(isset($coupon))
+            <div class="m-0 sm:m-8">
+                <div class="flex flex-col">
+                    <label class="text-2xl text-green-400 font-medium mb-4">@lang('Congratulations!')</label>
+                    <label class="mb-1">@lang('Here is your coupon')</label>
+                    <label class="mb-4 font-bold">@lang('Dont forget to download it!')</label>
+                </div>
+                @include('coupon', ['coupon' => $coupon])
+                <div class="flex items-center justify-center mt-8">
+                    <a href="{{ route('coupons.pdf', $coupon) }}" class="flex items-center mr-4">
+                        <img src="{{ asset('img/icons/save.svg') }}" alt="PDF" class="w-8">
+                        <label class="ml-2 text-sm cursor-pointer">@lang('Download PDF')</label>
+                    </a>
+                </div>
+            </div>
+            <hr class="mt-8 mb-4 mx-auto w-1/2">
+        @endif
+
         <h1 class="text-5xl mb-8">¡Hola Ciudadano!</h1>
 
         @if($campaign)
@@ -21,7 +39,7 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('coupons.assign') }}" class="max-w-2xl grid grid-cols-2 gap-4 text-left mx-auto my-8">
+            <form method="POST" action="{{ route('coupons.assign') }}" class="max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 text-left mx-auto my-8">
                 @csrf
                 <input type="hidden" name="campaign_id" value="{{ $campaign->id }}">
                 <div class="flex flex-col">
@@ -89,23 +107,6 @@
                     <label class="text-xs text-gray-500">@lang('Fields marked with * are required')</label>
                 </div>
             </form>
-
-            @if(isset($coupon))
-                <div class="m-8">
-                    <div class="flex flex-col">
-                        <label class="text-2xl text-green-400 font-medium mb-4">@lang('Congratulations!')</label>
-                        <label class="mb-1">@lang('Here is your coupon')</label>
-                        <label class="mb-4 font-bold">@lang('Dont forget to download it!')</label>
-                    </div>
-                    @include('coupon', ['coupon' => $coupon])
-                    <div class="flex items-center justify-center mt-8">
-                        <a href="{{ route('coupons.pdf', $coupon) }}" class="flex items-center mr-4">
-                            <img src="{{ asset('img/icons/save.svg') }}" alt="PDF" class="w-8">
-                            <label class="ml-2 text-sm cursor-pointer">@lang('Download PDF')</label>
-                        </a>
-                    </div>
-                </div>
-            @endif
         @else
             <div class="max-w-2xl m-auto text-center">
                 <img src="{{ asset('img/icons/ticket.svg') }}" alt="Ticket" class="w-48 mx-auto opacity-20 rotate-12">
