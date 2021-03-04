@@ -66,6 +66,8 @@
         font-family: 'Oxygen Mono', monospace;
         font-size: 2rem;
         border: 1px dashed rgba(255, 255, 255, .8);
+        width: 60%;
+        margin: auto;
     }
     .dimmed-text {
         color: rgba(255, 255, 255, .6);
@@ -76,10 +78,12 @@
         font-family: 'Nunito', sans-serif;
     }
     .coupon-logo {
-        margin-top: 30px;
+        margin-top:30px;
+        text-align: center;
     }
     .coupon-logo img {
-        margin: auto;
+        display: inline-block;
+        width: 170px;
     }
 </style>
 
@@ -96,11 +100,13 @@
             <label class="text-xs" style="color: rgba(255, 255, 255, .8);">DNI: {{ $coupon->user->dni }}</label>
         </div>
     </div>
+
     <div class="coupon-bottom">
         <span class="data-title text-xs">@lang('Your code')</span>
-            <label class="code-label">{{ $coupon->code }}</label>
+        <label class="code-label">{{ $coupon->code }}</label>
         <label class="text-xs dimmed-text">@lang('Valid until') {{ $coupon->expires_at->format('d/m/Y H:i') }}</label>
     </div>
+
     <div class="coupon-logo">
         <img src="{{ asset('img/logo-blanco.png') }}">
     </div>
