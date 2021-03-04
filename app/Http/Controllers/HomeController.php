@@ -15,6 +15,8 @@ class HomeController extends Controller
             $coupon = Coupon::find(session('couponId'));
         } catch(\Exception $e) {}
 
+//        $coupon = Coupon::find(16);
+
         return view('home', compact('campaign', 'coupon'));
     }
 }

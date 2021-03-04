@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -19,7 +20,9 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        $shop = Shop::where('registration_token', request('registration_token'))->first();
+
+        return view('auth.register', compact('shop'));
     }
 
     /**
@@ -33,19 +36,28 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'token' => 'required|exists:shops,registration_token',
+            'shop_name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'phone' => 'required|unique:users',
+            'email' => 'nullable',
             'password' => 'required|string|confirmed|min:8',
         ]);
 
+        $shop = Shop::where('registration_token', $request->token)->first();
+
         Auth::login($user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'username' => $request->username,
+            'email' => $request->email ?? $shop->user->email,
             'password' => Hash::make($request->password),
         ]));
 
+        $shop->name = $request->shop_name;
+        $shop->registration_token = NULL;
+        $shop->save();
+
         event(new Registered($user));
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(route('admin.index'));
     }
 }

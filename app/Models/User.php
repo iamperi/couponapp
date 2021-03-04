@@ -5,12 +5,15 @@ namespace App\Models;
 use App\Constants;
 use App\Filters\OrderBy;
 use App\Filters\Search;
+use App\Mail\ShopRegistration;
+use App\Notifications\ResetPasswordNotification;
 use App\Traits\HasCoupons;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -120,5 +123,10 @@ class User extends Authenticatable
     public function setDniAttribute($value)
     {
         $this->attributes['dni'] = strtoupper($value);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

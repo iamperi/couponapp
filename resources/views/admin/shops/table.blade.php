@@ -6,6 +6,7 @@
             <td data-field="email">@lang('Email')</td>
             <td data-field="phone">@lang('Phone')</td>
             <td>@lang('Pending payments')</td>
+            <td></td>
         </tr>
     </thead>
     <tbody>

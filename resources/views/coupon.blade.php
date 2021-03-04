@@ -16,14 +16,13 @@
     }
     .coupon {
         max-width: 28rem;
-        border: 4px solid;
-        border-color: rgba(110, 231, 183, 1);
         border-radius: .25rem;
         --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
         padding: 1rem;
-        background: white;
+        background: #B91C1C;
         margin: auto;
+        color: white;
     }
     .coupon-top {
     }
@@ -34,11 +33,11 @@
         text-align: center;
     }
     .campaign-data {
-        color: rgba(16, 185, 129, 1);
+        color: rgba(255, 255, 255, 1);
     }
     .data-title {
         text-transform: uppercase;
-        color: rgba(209, 213, 219, 1);
+        color: rgba(255, 255, 255, .6);
         font-size: .6rem;
     }
     .coupon-amount {
@@ -55,20 +54,32 @@
     }
     .coupon-bottom {
         text-align: center;
-        margin-top: 5rem;
+        margin-top: 7rem;
         clear: both;
+    }
+    .code-label-wrapper {
+        border: 1px dashed rgba(255, 255, 255, .8);
+        padding: 0 25px;
+        margin: 10px auto;
     }
     .code-label {
         font-family: 'Oxygen Mono', monospace;
         font-size: 2rem;
+        border: 1px dashed rgba(255, 255, 255, .8);
     }
-    .text-gray-400 {
-        color: rgba(156, 163, 175, 1);
+    .dimmed-text {
+        color: rgba(255, 255, 255, .6);
     }
     span,
     label {
         display: block;
         font-family: 'Nunito', sans-serif;
+    }
+    .coupon-logo {
+        margin-top: 30px;
+    }
+    .coupon-logo img {
+        margin: auto;
     }
 </style>
 
@@ -81,13 +92,16 @@
         </div>
         <div class="">
             <span class="data-title">@lang('Client')</span>
-            <label class="text-lg">{{ $coupon->user->full_name }}</label>
-            <label class="text-xs">DNI: {{ $coupon->user->dni }}</label>
+            <label class="" style="color: rgba(255, 255, 255, .8);">{{ $coupon->user->full_name }}</label>
+            <label class="text-xs" style="color: rgba(255, 255, 255, .8);">DNI: {{ $coupon->user->dni }}</label>
         </div>
     </div>
     <div class="coupon-bottom">
         <span class="data-title text-xs">@lang('Your code')</span>
-        <label class="code-label">{{ $coupon->code }}</label>
-        <label class="text-xs text-gray-400">@lang('Valid until') {{ $coupon->expires_at->format('d/m/Y H:i') }}</label>
+            <label class="code-label">{{ $coupon->code }}</label>
+        <label class="text-xs dimmed-text">@lang('Valid until') {{ $coupon->expires_at->format('d/m/Y H:i') }}</label>
+    </div>
+    <div class="coupon-logo">
+        <img src="{{ asset('img/logo-blanco.png') }}">
     </div>
 </div>

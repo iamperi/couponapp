@@ -19,6 +19,7 @@ class CreateShopsTable extends Migration
             $table->string('name');
             $table->double('due_amount')->default(0);
             $table->double('payed_amount')->default(0);
+            $table->string('registration_token')->nullable();
             $table->timestamps();
         });
     }

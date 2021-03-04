@@ -172,7 +172,8 @@ return [
         ],
         'password' => [
             'required' => 'Escribe una contraseña',
-            'confirmed' => 'Las contraseñas no coinciden'
+            'confirmed' => 'Las contraseñas no coinciden',
+            'min' => 'La contraseña debe contener al menos :min caracteres'
         ],
         'phone' => [
             'required' => 'Escribe un teléfono',
@@ -182,6 +183,10 @@ return [
         'prefix' => [
             'required' => 'Escribe un prefijo',
             'size' => 'El prefijo tiene que tener 3 caracteres'
+        ],
+        'shop_name' => [
+            'required' => 'Escribe el nombre de la tienda',
+            'max' => 'El nombre es demasiado largo'
         ],
         'starts_at' => [
             'required' => '¿Cuándo empieza la campaña?'

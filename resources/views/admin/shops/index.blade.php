@@ -20,7 +20,7 @@
             <label class="card-title">@lang('New shop')</label>
         </div>
 
-        <form method="POST" action="{{ route('admin.shops.store') }}" x-data="{ name: '{{ old('name') }}', usernameChanged: false}">
+        <form method="POST" action="{{ route('admin.shops.store') }}">
             @csrf
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
                 <div class="input-group">
@@ -29,27 +29,13 @@
                            id="shop_name"
                            name="name"
                            class="textbox @error('name') invalid @enderror"
-                           x-model="name"
-                           @keyup="if(!usernameChanged){ $refs.shop_username.value = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replaceAll(' ', '.').toLowerCase(); }"
+                           value="{{ old('name') }}"
                     >
                     @error('name')
                     <span class="form-feedback error">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="input-group">
-                    <label>@lang('Username')</label>
-                    <input type="text"
-                           id="shop_username"
-                           x-ref="shop_username"
-                           name="username"
-                           class="textbox @error('username') invalid @enderror"
-                           value="{{ old('username') }}"
-                           @keyup="usernameChanged = true"
-                    >
-                    @error('username')
-                    <span class="form-feedback error">{{ $message }}</span>
-                    @enderror
-                </div>
+
                 <div class="input-group">
                     <label>@lang('Email')</label>
                     <input type="email" name="email" class="textbox @error('email') invalid @enderror" value="{{ old('email') }}">
@@ -57,23 +43,9 @@
                     <span class="form-feedback error">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="input-group">
-                    <label>@lang('Phone')</label>
-                    <input type="text" name="phone" class="textbox @error('phone') invalid @enderror" value="{{ old('phone') }}">
-                    @error('phone')
-                    <span class="form-feedback error">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="input-group">
-                    <label>@lang('Password')</label>
-                    <input type="password" name="password" class="textbox @error('password') invalid @enderror">
-                    @error('password')
-                    <span class="form-feedback error">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="input-group">
-                    <label>@lang('Password confirmation')</label>
-                    <input type="password" name="password_confirmation" class="textbox">
+
+                <div class="flex items-center mt-2">
+                    <label class="text-xs text-gray-600">* @lang('An email will be sent to the store')</label>
                 </div>
             </div>
 

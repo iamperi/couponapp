@@ -29,6 +29,7 @@ Route::prefix('admin')
 
     Route::get('shops', 'Admin\ShopController@index')->name('shops.index');
     Route::post('shops', 'Admin\ShopController@store')->name('shops.store');
+    Route::get('shops/{shop}/send-registration-email', 'Admin\ShopController@sendRegistrationEmail')->name('shops.send_registration_email');
 
     Route::get('historic', 'Admin\HistoricController@index')->name('historic.index');
 
