@@ -83,5 +83,9 @@
                 </x-button>
             </div>
         </form>
+
+        <x-slot name="bottom">
+            <a href="{{ asset('pdf/condiciones.pdf') }}" class="text-xs text-gray-500">@lang('Terms and legal conditions')</a>
+        </x-slot>
     </x-auth-card>
 </x-guest-layout>
