@@ -18,7 +18,7 @@
             <hr class="mt-8 mb-4 mx-auto w-1/2">
         @endif
 
-        <h1 class="text-5xl mb-8">¡Hola Ciudadano!</h1>
+        <h1 class="text-5xl mb-8">¡Hola Vecin@!</h1>
 
         @if($campaign)
             <h3 class="text-xl mb-8">Nuestra campaña actual de cupones es:</h3>

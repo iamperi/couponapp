@@ -44,6 +44,7 @@ class CouponController extends Controller
                 if($coupon) {
                     $coupon->unassign();
                 }
+                logger()->info($e);
                 return redirect(route('home'))->with('error', __('Sorry... We could not get you a coupon, try again later'));
             }
         }
