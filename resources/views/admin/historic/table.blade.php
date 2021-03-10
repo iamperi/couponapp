@@ -14,7 +14,7 @@
                     @admin
                     <img src="{{ asset('img/icons/help.svg') }}"
                          class="w-5 ml-2 cursor-pointer"
-                         @click="show = !show"
+                         @click.prevent.stop="show = !show"
                          @click.away="show = false">
                     @endadmin
                     <div class="absolute w-32 rounded bg-white shadow-lg mt-24 p-2" x-show="show">
