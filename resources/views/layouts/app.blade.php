@@ -18,7 +18,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased overflow-x-hidden">
-        <div class="min-h-screen bg-gray-100">
+        <div class="flex flex-col min-h-screen bg-gray-100">
             <header class="relative flex items-center justify-between w-screen h-20 bg-red-700 px-12 sm:px-20"
                     x-data="{mobileMenuOpen: false}"
             >
@@ -63,7 +63,7 @@
                 </nav>
             </header>
 
-            <main class="my-10 px-8 md:mx-0">
+            <main class="flex-grow my-10 px-8 md:mx-0">
                 @if(session('error'))
                     <div class="bg-red-100 text-red-600 text-center border-2 border-red-400 p-2 m-6 rounded shadow">
                         <label>{{session('error')}}</label>
