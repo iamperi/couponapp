@@ -44,7 +44,7 @@ class CouponRequestTest extends TestCase
      */
     public function a_user_can_request_a_coupon()
     {
-//        $this->withoutExceptionHandling();
+    //    $this->withoutExceptionHandling();
 
         Campaign::factory()->create();
 
@@ -343,6 +343,7 @@ class CouponRequestTest extends TestCase
     {
         $campaign = Campaign::factory()->create();
         $campaign->ends_at = Carbon::now()->subDay();
+        $campaign->save();
 
         $data = $this->getUserData();
 
@@ -358,6 +359,7 @@ class CouponRequestTest extends TestCase
     {
         $campaign = Campaign::factory()->active()->create();
         $campaign->ends_at = Carbon::now()->subDay();
+        $campaign->save();
 
         $response = $this->get(route('home'));
 

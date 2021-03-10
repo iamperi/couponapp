@@ -85,7 +85,7 @@ class Campaign extends Model
 
     public function isEnded()
     {
-        return $this->ends_at < Carbon::now();
+        return !is_null($this->ends_at) && $this->ends_at < Carbon::now();
     }
 
     public function status()
