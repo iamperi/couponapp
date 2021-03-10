@@ -17,10 +17,12 @@ class CreateCampaignsTable extends Migration
             $table->id();
             $table->string('name', 64);
             $table->string('prefix', 3);
+            $table->text('description')->nullable();
             $table->double('coupon_amount')->comment('Coupon discount amount');
             $table->unsignedInteger('coupon_count')->comment('Number of coupons that will be available');
             $table->unsignedInteger('coupon_validity')->comment('In hours');
             $table->unsignedInteger('limit_per_person')->comment('Max. number of coupons that a person can get');
+            $table->string('coupon_extra_text', 30)->nullable();
             $table->dateTime('starts_at');
             $table->dateTime('ends_at')->nullable();
             $table->boolean('active')->default(false);

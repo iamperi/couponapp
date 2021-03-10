@@ -143,6 +143,9 @@ return [
             'integer' => 'Escribe un número válido',
             'min' => 'Mínimo 1 cupón'
         ],
+        'coupon_extra_text' => [
+            'max' => 'Máximo :max caracteres'
+        ],
         'coupon_validity' => [
             'required' => 'Escribe la validez de cada cupón',
             'integer' => 'Escribe un número válido',

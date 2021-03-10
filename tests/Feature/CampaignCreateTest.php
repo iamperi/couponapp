@@ -320,6 +320,51 @@ class CampaignCreateTest extends TestCase
         $response->assertSessionHasErrorsIn('ends_at');
     }
 
+    /**
+     * @test
+     */
+    public function campaign_description_is_saved_correctly_if_it_is_present()
+    {
+        $user = $this->getAdminUser();
+
+        $response = $this->actingAs($user)->post($this->storeRoute, $data = $this->getCampaignData());
+
+        $this->assertDatabaseHas('campaigns', [
+            'description' => $data['description']
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function coupon_extra_text_is_saved_correctly_if_it_is_present()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = $this->getAdminUser();
+
+        $response = $this->actingAs($user)->post($this->storeRoute, $data = $this->getCampaignData());
+
+        $this->assertDatabaseHas('campaigns', [
+            'coupon_extra_text' => $data['coupon_extra_text']
+        ]);
+    }
+
+
+    /**
+     * @test
+     */
+    public function coupon_extra_text_cannot_have_more_than_30_chars()
+    {
+        $user = $this->getAdminUser();
+
+        $response = $this->actingAs($user)->post($this->storeRoute, $data = $this->getCampaignData([
+            'coupon_extra_text' => 'a very long text with more than 30 characters'
+        ]));
+
+        $response->assertSessionHasErrorsIn('coupon_extra_text');
+    }
+
     private function getCampaignData($data = [])
     {
         return array_merge([
@@ -331,6 +376,8 @@ class CampaignCreateTest extends TestCase
             'limit_per_person' => '2',
             'starts_at' => '20/12/2021 10:00',
             'ends_at' => '06/01/2021 00:00',
+            'description' => 'A description for this campaign',
+            'coupon_extra_text' => 'Minimum amount 25€'
         ], $data);
     }
 

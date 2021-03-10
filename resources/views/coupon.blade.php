@@ -105,6 +105,9 @@
         <span class="data-title text-xs">@lang('Your code')</span>
         <label class="code-label">{{ $coupon->code }}</label>
         <label class="text-xs dimmed-text">@lang('Valid until') {{ $coupon->expires_at->format('d/m/Y H:i') }}</label>
+        @if($coupon->campaign->coupon_extra_text != '')
+        <label class="text-xs dimmed-text">{!! str_replace('€', '&euro;', $coupon->campaign->coupon_extra_text) !!}</label>
+        @endif
     </div>
 
     <div class="coupon-logo">

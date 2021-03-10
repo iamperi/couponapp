@@ -68,8 +68,11 @@ body {
             @apply text-xs;
         }
     }
+    .textarea {
+        @apply border border-gray-300 rounded outline-none p-2;
+    }
     .textbox {
-        @apply rounded border-gray-300 p-2 text-sm sm:text-base outline-none;
+        @apply rounded border border-gray-300 p-2 text-sm sm:text-base focus:outline-none;
         &.invalid {
             @apply border-red-400;
         }
@@ -163,6 +166,21 @@ body {
         }
         span {
             @apply absolute h-full flex items-center top-0 right-0 px-4 border-t border-b border-r border-gray-300 rounded bg-gray-100 opacity-60;
+        }
+        &.success {
+            .textbox {
+                @apply text-green-600 border-green-600;
+            }
+        }
+        &.warning {
+            .textbox {
+                @apply text-yellow-300 border-yellow-300;
+            }
+        }
+        &.danger {
+            .textbox {
+                @apply text-red-500 border-red-500;
+            }
         }
     }
     .alert {

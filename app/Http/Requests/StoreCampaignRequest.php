@@ -38,6 +38,8 @@ class StoreCampaignRequest extends FormRequest
             'limit_per_person' => 'required|integer|min:1',
             'starts_at' => 'required|dateformat:d/m/Y H:i',
             'ends_at' => 'nullable|dateformat:d/m/Y H:i',
+            'description' => 'nullable',
+            'coupon_extra_text' => 'nullable|max:30'
         ];
     }
 }

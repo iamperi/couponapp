@@ -138,11 +138,39 @@
                                x-model="couponValidity"
                         >
                         <span>
-                        <label class="lowercase"
-                               x-text="couponValidity == '1' ? '{{ __('Hour') }}' : '{{ __('Hours') }}'"></label>
-                    </span>
+                            <label class="lowercase"
+                                   x-text="couponValidity == '1' ? '{{ __('Hour') }}' : '{{ __('Hours') }}'"></label>
+                        </span>
                     </div>
                     @error('coupon_validity')
+                    <span class="form-feedback error">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-group">
+                    <label>@lang('Campaign description')</label>
+                    <textarea name="description" rows="3" class="textarea @error('coupon_validity') invalid @enderror">
+                        {{ old('description') ?? '' }}
+                    </textarea>
+                    @error('description')
+                    <span class="form-feedback error">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="input-group" x-data="{maxChars: 30, charsLeft: 30, prevLength: {{ strlen(old('coupon_extra_text')) }}, statusClass: ''}">
+                    <label>@lang('Coupon extra text')</label>
+                    <div class="textbox-with-span" :class="{'success': charsLeft > 10 && charsLeft < 30, 'warning': charsLeft <= 10, 'danger': charsLeft < 0}">
+                        <input type="text"
+                               name="coupon_extra_text"
+                               class="textbox @error('coupon_extra_text') invalid @enderror"
+                               :class="statusClass"
+                               value="{{ old('coupon_extra_text') }}"
+                               @keyup="charsLeft = $event.target.value.length == 0 ? maxChars : maxChars - $event.target.value.length"
+                        >
+                        <span>
+                            <label class="lowercase"
+                                   x-text="charsLeft == '1' ? charsLeft + ' {{ __('Character') }}' : charsLeft + ' {{ __('Characters') }}'"></label>
+                        </span>
+                    </div>
+                    @error('coupon_extra_text')
                     <span class="form-feedback error">{{ $message }}</span>
                     @enderror
                 </div>
