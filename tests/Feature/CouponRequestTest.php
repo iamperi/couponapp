@@ -339,6 +339,34 @@ class CouponRequestTest extends TestCase
     /**
      * @test
      */
+    public function cannot_assign_a_coupon_if_a_campaign_is_ended()
+    {
+        $campaign = Campaign::factory()->create();
+        $campaign->ends_at = Carbon::now()->subDay();
+
+        $data = $this->getUserData();
+
+        $response = $this->followingRedirects()->post($this->postRoute, $data);
+
+        $response->assertSee(__('Sorry... This campaign has ended'));
+    }
+
+    /**
+     * @test
+     */
+    public function users_see_the_campaign_ended_message_if_the_active_campaign_has_ended()
+    {
+        $campaign = Campaign::factory()->active()->create();
+        $campaign->ends_at = Carbon::now()->subDay();
+
+        $response = $this->get(route('home'));
+
+        $response->assertSee(__('Sorry... This campaign has ended'));
+    }
+
+    /**
+     * @test
+     */
     public function a_new_coupon_is_injected_when_a_campaign_is_maxed_out_but_there_are_slots_available()
     {
         $campaign = Campaign::factory()->create();

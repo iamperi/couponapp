@@ -41,6 +41,12 @@
                 </div>
             </div>
 
+            @if($campaign->isEnded())
+            <div class="flex flex-col justify-center items-center mt-8">
+                <img src="{{ asset('img/sad.png') }}" width="60" class="opacity-70">
+                <label class="text-2xl text-gray-700 mt-2">@lang('Sorry... This campaign has ended')</label>
+            </div>
+            @else
             <form method="POST" action="{{ route('coupons.assign') }}" class="max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 text-left mx-auto my-8">
                 @csrf
                 <input type="hidden" name="campaign_id" value="{{ $campaign->id }}">
@@ -109,6 +115,7 @@
                     <label class="text-xs text-gray-500">@lang('Fields marked with * are required')</label>
                 </div>
             </form>
+            @endif
         @else
             <div class="max-w-2xl m-auto text-center">
                 <img src="{{ asset('img/icons/ticket.svg') }}" alt="Ticket" class="w-48 mx-auto opacity-20 rotate-12">

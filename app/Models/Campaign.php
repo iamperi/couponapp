@@ -83,6 +83,11 @@ class Campaign extends Model
         return false;
     }
 
+    public function isEnded()
+    {
+        return $this->ends_at < Carbon::now();
+    }
+
     public function status()
     {
         return $this->active ? __('Active') : __('Inactive');

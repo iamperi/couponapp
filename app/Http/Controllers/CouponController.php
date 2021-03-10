@@ -26,6 +26,8 @@ class CouponController extends Controller
 
         if($user->hasReachedCampaignLimit($campaign)) {
             return redirect()->back()->with('error', __('You have reached the coupon limit for this campaign'));
+        } else if($campaign->isEnded()) {
+            return redirect()->back()->with('error', __('Sorry... This campaign has ended'));
         }
 
         $coupon = $user->assignCoupon($campaign);
