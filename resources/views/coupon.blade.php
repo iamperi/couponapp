@@ -15,6 +15,7 @@
         font-style: normal;
     }
     .coupon {
+        min-width: 26rem;
         max-width: 28rem;
         border-radius: .25rem;
         --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -104,7 +105,7 @@
     <div class="coupon-bottom">
         <span class="data-title text-xs">@lang('Your code')</span>
         <label class="code-label">{{ $coupon->code }}</label>
-        <label class="text-xs dimmed-text">@lang('Valid until') {{ $coupon->expires_at->format('d/m/Y H:i') }}</label>
+        <label class="text-xs dimmed-text" style="margin-top: 10px;">@lang('Valid until') {{ $coupon->expires_at->format('d/m/Y H:i') }}</label>
         @if($coupon->campaign->coupon_extra_text != '')
         <label class="text-xs dimmed-text">{!! str_replace('€', '&euro;', $coupon->campaign->coupon_extra_text) !!}</label>
         @endif

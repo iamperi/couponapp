@@ -36,7 +36,9 @@
                     </div>
                     <h1 class="font-bold mb-8">@lang('Press enter to validate the coupon')</h1>
                     @if(isset($coupon))
-                        @include('coupon')
+                        <div style="min-width: 26rem;">
+                            @include('coupon')
+                        </div>
                     @endif
                 @elseif(session('invalid'))
                     <div class="alert alert-error mt-8">

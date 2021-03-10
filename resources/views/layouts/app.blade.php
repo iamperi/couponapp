@@ -37,6 +37,11 @@
                         <li class="text-white no-underline ml-6">
                             <a href="https://mostoleapp.com/micuenta">Entrar</a>
                         </li>
+                        @can(\App\Constants::ACCESS_ADMIN)
+                        <li class="text-white no-underline ml-6">
+                            <a href="{{ route('admin.index') }}">Admin</a>
+                        </li>
+                        @endcan
                     </ul>
                 </nav>
                 <div class="block md:hidden" @click="mobileMenuOpen = !mobileMenuOpen">
