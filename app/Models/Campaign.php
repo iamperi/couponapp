@@ -107,4 +107,9 @@ class Campaign extends Model
             $campaign->save();
         }
     }
+
+    public function getNotStartedMessage()
+    {
+        return __('This campaign starts :date at :time', ['date' => $this->starts_at->locale('es')->isoFormat('D \d\e MMMM'), 'time' => $this->starts_at->format('H:m')]);
+    }
 }

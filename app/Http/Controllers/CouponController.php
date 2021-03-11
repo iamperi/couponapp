@@ -28,6 +28,8 @@ class CouponController extends Controller
             return redirect()->back()->with('error', __('You have reached the coupon limit for this campaign'));
         } else if($campaign->isEnded()) {
             return redirect()->back()->with('error', __('Sorry... This campaign has ended'));
+        } else if(!$campaign->isStarted()) {
+            return redirect()->back()->with('error', $campaign->getNotStartedMessage());
         }
 
         $coupon = $user->assignCoupon($campaign);

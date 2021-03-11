@@ -339,6 +339,22 @@ class CouponRequestTest extends TestCase
     /**
      * @test
      */
+    public function cannot_assign_a_coupon_if_a_campaign_is_not_started()
+    {
+        $campaign = Campaign::factory()->create();
+        $campaign->starts_at = Carbon::now()->addDay();
+        $campaign->save();
+
+        $data = $this->getUserData();
+
+        $response = $this->followingRedirects()->post($this->postRoute, $data);
+
+        $response->assertSee('Esta campaña empieza');
+    }
+
+    /**
+     * @test
+     */
     public function cannot_assign_a_coupon_if_a_campaign_is_ended()
     {
         $campaign = Campaign::factory()->create();
@@ -350,6 +366,20 @@ class CouponRequestTest extends TestCase
         $response = $this->followingRedirects()->post($this->postRoute, $data);
 
         $response->assertSee(__('Sorry... This campaign has ended'));
+    }
+
+    /**
+     * @test
+     */
+    public function users_see_the_campaign_starts_at_message_if_the_active_campaign_has_not_started_yet()
+    {
+        $campaign = Campaign::factory()->active()->create();
+        $campaign->starts_at = Carbon::now()->addDay();
+        $campaign->save();
+
+        $response = $this->get(route('home'));
+
+        $response->assertSee('Esta campaña empieza');
     }
 
     /**
