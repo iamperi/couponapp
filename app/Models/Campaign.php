@@ -83,6 +83,11 @@ class Campaign extends Model
         return false;
     }
 
+    public function isStarted()
+    {
+        return $this->starts_at <= Carbon::now();
+    }
+
     public function isEnded()
     {
         return !is_null($this->ends_at) && $this->ends_at < Carbon::now();
