@@ -22,7 +22,7 @@
             <header class="relative flex items-center justify-between w-screen h-20 bg-red-700 px-12 sm:px-20"
                     x-data="{mobileMenuOpen: false}"
             >
-                <a href="/">
+                <a href="https://mostoleapp.com">
                     <img src="{{ asset('img/logo-blanco.png') }}" alt="Logo Móstoles" />
                 </a>
 
