@@ -22,7 +22,7 @@ class ShopController extends Controller
 
             return view('admin.shops.table', compact('shopUsers'));
         }
-        $shopUsers = User::role(Constants::SHOP_ROLE)->paginate(5);
+        $shopUsers = User::role(Constants::SHOP_ROLE)->paginate(25);
         return view('admin.shops.index', compact('shopUsers'));
     }
 

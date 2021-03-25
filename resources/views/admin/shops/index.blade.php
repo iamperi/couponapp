@@ -62,7 +62,7 @@
             order_by: 'username',
             order_asc: true,
             page: 1,
-            per_page: 10
+            per_page: 25
         };
         const columns = [
             {
