@@ -198,7 +198,7 @@ class Coupon extends Model
 
     public static function filterUsed()
     {
-        $query = Coupon::whereNotNull('used_at')->join('users', 'coupons.user_id', '=', 'users.id');
+        $query = Coupon::whereNotNull('used_at');
         if(auth()->user()->hasRole(Constants::SHOP_ROLE)) {
             $query = $query->where('shop_id', auth()->user()->shop->id);
         }
@@ -206,7 +206,7 @@ class Coupon extends Model
             ->send($query)
             ->through([
                 OrderBy::class,
-                new Search(['users.dni', 'users.name', 'users.last_name', 'users.phone', 'code']),
+                new Search(['user.dni', 'user.name', 'user.last_name', 'user.phone', 'code']),
                 \App\Filters\Shop::class,
                 \App\Filters\Campaign::class
             ])
