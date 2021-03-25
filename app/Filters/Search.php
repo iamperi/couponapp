@@ -17,7 +17,7 @@ class Search extends Filter
         $search = request($this->filterName());
 
         $builder = $builder->where(function($query) use ($search) {
-            for($i = 1; $i < count($this->fields); $i++) {
+            for($i = 0; $i < count($this->fields); $i++) {
                 $field = $this->fields[$i];
                 if(str_contains($field, '.')) {
                     $relatedTable = explode('.', $field)[0];
