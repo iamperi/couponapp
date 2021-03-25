@@ -59,10 +59,10 @@ class User extends Authenticatable
     public static function shops()
     {
         return app(Pipeline::class)
-            ->send(User::role(Constants::SHOP_ROLE)->join('shops', 'shops.user_id', '=', 'users.id'))
+            ->send(User::role(Constants::SHOP_ROLE))
             ->through([
                 OrderBy::class,
-                new Search(['shops.name', 'username', 'email', 'phone'])
+                new Search(['shop.name', 'username', 'email', 'phone'])
             ])
             ->thenReturn()
             ->paginate(request('per_page') ?? 15);

@@ -17,9 +17,27 @@ class Search extends Filter
         $search = request($this->filterName());
 
         $builder = $builder->where(function($query) use ($search) {
-            $query->where($this->fields[0], 'like', "%$search%");
             for($i = 1; $i < count($this->fields); $i++) {
-                $query->orWhere($this->fields[$i], 'like', "%$search%");
+                $field = $this->fields[$i];
+                if(str_contains($field, '.')) {
+                    $relatedTable = explode('.', $field)[0];
+                    $relatedColumn = explode('.', $field)[1];
+                    if($i == 0) {
+                        $query->whereHas($relatedTable, function ($q) use ($relatedColumn, $search) {
+                            $q->where($relatedColumn, 'like', "%$search%");
+                        });
+                    } else {
+                        $query->orWhereHas($relatedTable, function ($q) use ($relatedColumn, $search) {
+                            $q->where($relatedColumn, 'like', "%$search%");
+                        });
+                    }
+                } else {
+                    if($i == 0) {
+                        $query->where($field, 'like', "%$search%");
+                    } else {
+                        $query->orWhere($this->fields[$i], 'like', "%$search%");
+                    }
+                }
             }
         });
         return $builder;
