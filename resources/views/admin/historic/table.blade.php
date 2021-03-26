@@ -58,3 +58,7 @@
         @endforeach
     </tbody>
 </table>
+
+<div class="mx-4 mt-4">
+    {{ $usedCoupons->links() }}
+</div>

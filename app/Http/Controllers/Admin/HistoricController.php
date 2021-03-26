@@ -17,7 +17,7 @@ class HistoricController extends Controller
 
             return view('admin.historic.table', compact('usedCoupons'));
         }
-        $usedCoupons = [];
+        $usedCoupons = Coupon::filterUsed();
         $shops = Shop::all();
         $notFinishedCampaigns = Campaign::notFinished()->get();
         return view('admin.historic.index', compact('usedCoupons', 'shops', 'notFinishedCampaigns'));

@@ -206,12 +206,12 @@ class Coupon extends Model
             ->send($query)
             ->through([
                 OrderBy::class,
-                new Search(['user.dni', 'user.name', 'user.last_name', 'user.phone', 'code']),
+                new Search(['user.dni', 'user.name', 'user.last_name', 'user.phone', 'shop.name', 'code']),
                 \App\Filters\Shop::class,
                 \App\Filters\Campaign::class
             ])
             ->thenReturn()
-            ->paginate(request('per_page') ?? 15);
+            ->paginate(request('per_page') ?? 25);
     }
 
     public function scopeUsed($query)
