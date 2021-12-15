@@ -34,29 +34,38 @@ class ShopController extends Controller
 
         $validated = request()->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
 //            'phone' => 'required|max:9|unique:users,phone',
 //            'username' => 'required|max:50|unique:users,username',
 //            'password' => 'required|confirmed'
         ]);
 
-        $shopUser = User::create([
-            'username' => request('email'),
-            'email' => request('email')
-        ]);
+        $shopUser = User::whereEmail(request('email'))->first();
+
+        if(is_null($shopUser)) {
+            $shopUser = User::create([
+                'username' => request('email'),
+                'email' => request('email')
+            ]);
+        }
 
         $shopUser->assignRole(Constants::SHOP_ROLE);
 
-        $shop = Shop::create([
-            'user_id' => $shopUser->id,
-            'name' => request('name')
-        ]);
+        $shop = Shop::whereId($shopUser->id)->first();
 
-        $shop->generateRegistrationToken();
+        if(is_null($shop)) {
+            $shop = Shop::create([
+                'user_id' => $shopUser->id,
+                'name' => request('name')
+            ]);
 
-        $shop->user()->associate($shopUser);
+            $shop->generateRegistrationToken();
 
-        $shop->sendRegistrationEmail();
+            $shop->user()->associate($shopUser);
+
+            $shop->sendRegistrationEmail();
+        }
+
 
         return redirect(route('admin.shops.index'))->with('success', __('Shop created successfully'));
     }
