@@ -249,8 +249,8 @@
                                     }"
                                     class="relative flex items-center"
                                 >
-                                    <label @click="copyToClipboard" class="text-xs cursor-pointer">{{ $campaign->getVipUrl() }}</label>
-                                    <label x-ref="url" x-show="notifying" x-transition class="absolute top-full left-0 text-xs p-1 bg-green-100">Enlace copiado</label>
+                                    <label x-ref="url" @click="copyToClipboard" class="text-xs cursor-pointer">{{ $campaign->getVipUrl() }}</label>
+                                    <label x-show="notifying" x-transition class="absolute top-full left-0 text-xs p-1 bg-green-100">Enlace copiado</label>
                                 </div>
                                 @endif
                                 <span class="text-xs text-gray-500">
