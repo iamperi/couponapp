@@ -225,8 +225,8 @@
             @if($activeCampaigns->count() > 0)
             <div class="active-campaigns grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-2">
                 @foreach($activeCampaigns as $campaign)
-                    <div class="flex inline-flex flex-col min-w-full border p-6 rounded shadow m-2 {{ $campaign->active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' }}">
-                        <div class="flex justify-between items-start">
+                    <div class="inline-flex flex-col min-w-full border p-6 rounded shadow m-2 {{ $campaign->active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' }}">
+                        <div class="relative flex justify-between items-start">
                             <div class="flex flex-col">
                                 <div>
                                     <span class="uppercase text-gray-400" style="font-size: .6rem;">@lang('Campaign')</span>
@@ -247,7 +247,7 @@
                                             }, 2000)
                                         }
                                     }"
-                                    class="relative flex items-center"
+                                    class="relative flex items-center mb-2"
                                 >
                                     <label x-ref="url" @click="copyToClipboard" class="text-xs cursor-pointer">{{ $campaign->getVipUrl() }}</label>
                                     <label x-show="notifying" x-transition class="absolute top-full left-0 text-xs p-1 bg-green-100">Enlace copiado</label>
@@ -266,7 +266,7 @@
                                     @endif
                                 </span>
                             </div>
-                            <div class="flex items-center space-x-2">
+                            <div class="absolute top-1 right-1 flex items-center space-x-2">
                                 @if($campaign->is_vip)
                                 <span class="rounded text-xs bg-yellow-200 px-2">VIP</span>
                                 @endif
