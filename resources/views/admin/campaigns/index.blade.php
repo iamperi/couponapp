@@ -155,24 +155,56 @@
                     <span class="form-feedback error">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="input-group" x-data="{maxChars: 30, charsLeft: 30, prevLength: {{ strlen(old('coupon_extra_text')) }}, statusClass: ''}">
-                    <label>@lang('Coupon extra text')</label>
-                    <div class="textbox-with-span" :class="{'success': charsLeft > 10 && charsLeft < 30, 'warning': charsLeft <= 10, 'danger': charsLeft < 0}">
-                        <input type="text"
-                               name="coupon_extra_text"
-                               class="textbox @error('coupon_extra_text') invalid @enderror"
-                               :class="statusClass"
-                               value="{{ old('coupon_extra_text') }}"
-                               @keyup="charsLeft = $event.target.value.length == 0 ? maxChars : maxChars - $event.target.value.length"
-                        >
-                        <span>
-                            <label class="lowercase"
-                                   x-text="charsLeft == '1' ? charsLeft + ' {{ __('Character') }}' : charsLeft + ' {{ __('Characters') }}'"></label>
-                        </span>
+                <div class="flex flex-col">
+                    <div class="input-group" x-data="{maxChars: 30, charsLeft: 30, prevLength: {{ strlen(old('coupon_extra_text')) }}, statusClass: ''}">
+                        <label>@lang('Coupon extra text')</label>
+                        <div class="textbox-with-span" :class="{'success': charsLeft > 10 && charsLeft < 30, 'warning': charsLeft <= 10, 'danger': charsLeft < 0}">
+                            <input type="text"
+                                   name="coupon_extra_text"
+                                   class="textbox @error('coupon_extra_text') invalid @enderror"
+                                   :class="statusClass"
+                                   value="{{ old('coupon_extra_text') }}"
+                                   @keyup="charsLeft = $event.target.value.length == 0 ? maxChars : maxChars - $event.target.value.length"
+                            >
+                            <span>
+                                <label class="lowercase"
+                                       x-text="charsLeft == '1' ? charsLeft + ' {{ __('Character') }}' : charsLeft + ' {{ __('Characters') }}'"></label>
+                            </span>
+                        </div>
+                        @error('coupon_extra_text')
+                        <span class="form-feedback error">{{ $message }}</span>
+                        @enderror
                     </div>
-                    @error('coupon_extra_text')
-                    <span class="form-feedback error">{{ $message }}</span>
-                    @enderror
+                    <div
+                        x-data="{
+                            checked: false,
+                            url: '',
+                        }"
+                        x-init="
+                            checked = $refs.checkbox.checked
+                            url = `{{ config('app.url') }}/vip/${$refs.codeInput.value}`
+                        "
+                        class="flex flex-col"
+                    >
+                        <div class="input-group col-span-2 mb-4">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    x-ref="checkbox"
+                                    name="is_vip"
+                                    @input="checked = $refs.checkbox.checked"
+                                    class="@error('is_vip') invalid @enderror" value="1" {{ old('is_vip') ? 'checked' : '' }}
+                                >
+                                @lang('Create VIP campaign')
+                            </label>
+                            @error('is_vip')
+                            <span class="form-feedback error">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <input type="hidden" x-ref="codeInput" name="vip_code" value="{{ $vipCode }}" />
+                        <label x-show="checked" class="text-xs">Visible en: <span x-text="url" class="bg-gray-100 rounded px-2 py-1"></span></label>
+                    </div>
                 </div>
             </div>
 
@@ -196,8 +228,31 @@
                     <div class="flex inline-flex flex-col min-w-full border p-6 rounded shadow m-2 {{ $campaign->active ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' }}">
                         <div class="flex justify-between items-start">
                             <div class="flex flex-col">
-                                <span class="uppercase text-gray-400" style="font-size: .6rem;">@lang('Campaign')</span>
+                                <div>
+                                    <span class="uppercase text-gray-400" style="font-size: .6rem;">@lang('Campaign')</span>
+                                </div>
                                 <label class="font-medium">{{ $campaign->name }}</label>
+                                @if($campaign->is_vip)
+                                <div
+                                    x-data="{
+                                        notifying: false,
+                                        copyToClipboard() {
+                                            label = this.$refs.url;
+
+                                            navigator.clipboard.writeText(label.innerText);
+
+                                            this.notifying = true
+                                            setTimeout(() => {
+                                                this.notifying = false
+                                            }, 2000)
+                                        }
+                                    }"
+                                    class="relative flex items-center"
+                                >
+                                    <label @click="copyToClipboard" class="text-xs cursor-pointer">{{ $campaign->getVipUrl() }}</label>
+                                    <label x-ref="url" x-show="notifying" x-transition class="absolute top-full left-0 text-xs p-1 bg-green-100">Enlace copiado</label>
+                                </div>
+                                @endif
                                 <span class="text-xs text-gray-500">
                                     @lang('From'):
                                     {{ $campaign->starts_at->format('d/m/Y H:i') }}
@@ -211,9 +266,14 @@
                                     @endif
                                 </span>
                             </div>
-                            <x-badge class="{{ $campaign->active ? 'badge-green' : 'badge-red' }}">
-                                 {{ $campaign->status() }}
-                            </x-badge>
+                            <div class="flex items-center space-x-2">
+                                @if($campaign->is_vip)
+                                <span class="rounded text-xs bg-yellow-200 px-2">VIP</span>
+                                @endif
+                                <x-badge class="{{ $campaign->active ? 'badge-green' : 'badge-red' }}">
+                                     {{ $campaign->status() }}
+                                </x-badge>
+                            </div>
                         </div>
                         <div class="flex flex-col mt-2">
                             <label class="text-sm">

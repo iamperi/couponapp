@@ -39,7 +39,9 @@ class StoreCampaignRequest extends FormRequest
             'starts_at' => 'required|dateformat:d/m/Y H:i',
             'ends_at' => 'nullable|dateformat:d/m/Y H:i',
             'description' => 'nullable',
-            'coupon_extra_text' => 'nullable|max:30'
+            'is_vip' => 'nullable',
+            'vip_code' => 'sometimes|string|max:6|unique:campaigns,vip_code',
+            'coupon_extra_text' => 'nullable|max:30',
         ];
     }
 }

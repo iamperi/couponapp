@@ -78,11 +78,11 @@
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'oxygen mono' => array(
-    'normal' => $fontDir . '/oxygen_mono_normal_ef5038f89829c48afeebd295303c747d',
+    'normal' => $fontDir . '/oxygen_mono_normal_b2acd1b9be4e8d3e179ba1d9f52c5a2f',
   ),
   'nunito' => array(
-    'normal' => $fontDir . '/nunito_normal_40be13e0838a28d85ef39e94d206a3ec',
-    '600' => $fontDir . '/nunito_600_c3043a2e85e7b258084eb09e0bf67379',
-    'bold' => $fontDir . '/nunito_bold_20491dd02d708ed860212ace0e462b13',
+    'normal' => $fontDir . '/nunito_normal_f8ce9593f0c56e52776379aa29b2d690',
+    '600' => $fontDir . '/nunito_600_0275befc5ca0fc822c590fc63a6c14d5',
+    'bold' => $fontDir . '/nunito_bold_8dc3583b65bede23262ac4c563179f23',
   ),
 ) ?>

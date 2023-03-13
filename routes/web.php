@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__.'/auth.php';
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/vip/{code}', 'HomeController@vipIndex')->name('vipIndex');
 
 Route::post('coupons/assign', 'CouponController@assign')->name('coupons.assign');//->middleware(['throttle:coupons']);
 Route::get('coupons/{coupon}/pdf', 'CouponController@downloadPdf')->name('coupons.pdf');

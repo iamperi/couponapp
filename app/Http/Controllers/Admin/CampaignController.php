@@ -13,12 +13,17 @@ class CampaignController extends Controller
     public function index()
     {
         $activeCampaigns = Campaign::notFinished()->get();
-        return view('admin.campaigns.index', compact('activeCampaigns'));
+        $vipCode = Campaign::getVipCode();
+        return view('admin.campaigns.index', compact('activeCampaigns', 'vipCode'));
     }
 
     public function store(StoreCampaignRequest $request)
     {
-        Campaign::create($request->validated());
+        $data = $request->validated();
+
+        if(!array_key_exists('is_vip', $data)) $data['vip_code'] = null;
+
+        Campaign::create($data);
 
         return redirect(route('admin.campaigns.index'))->with('success', __('Campaign created successfully'));
     }
@@ -30,7 +35,11 @@ class CampaignController extends Controller
         }
 
         if($campaign->active === false) {
-            Campaign::deactivateActiveCampaign();
+            if(!$campaign->is_vip) {
+                Campaign::deactivateActiveCampaign();
+            } else {
+                Campaign::deactivateActiveVipCampaign();
+            }
         }
 
         $campaign->active = !$campaign->active;

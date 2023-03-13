@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Events\CampaignCreated;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
+use App\Events\CampaignCreated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Campaign extends Model
 {
@@ -18,7 +19,8 @@ class Campaign extends Model
         'coupon_amount' => 'double',
         'coupon_count' => 'integer',
         'coupon_validity' => 'integer',
-        'limit_per_person' => 'integer'
+        'limit_per_person' => 'integer',
+        'is_vip' => 'boolean',
     ];
 
     protected $dates = ['starts_at', 'ends_at'];
@@ -108,8 +110,39 @@ class Campaign extends Model
         }
     }
 
+    public static function deactivateActiveVipCampaign()
+    {
+        $campaign = self::active()->where('is_vip', true)->first();
+
+        if($campaign) {
+            $campaign->active = false;
+            $campaign->save();
+        }
+    }
+
     public function getNotStartedMessage()
     {
         return __('This campaign starts :date at :time', ['date' => $this->starts_at->locale('es')->isoFormat('D \d\e MMMM'), 'time' => $this->starts_at->format('H:i')]);
+    }
+
+    public static function getVipCode()
+    {
+        do {
+            $code = Str::random(6);
+        } while(Campaign::where('vip_code', $code)->exists());
+
+        return strtoupper($code);
+    }
+
+    public function getUrl()
+    {
+        if($this->is_vip) return $this->getVipUrl();
+
+        return route('home');
+    }
+
+    public function getVipUrl()
+    {
+        return config('app.url') . '/vip/' . $this->vip_code;
     }
 }

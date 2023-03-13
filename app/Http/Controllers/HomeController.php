@@ -18,4 +18,18 @@ class HomeController extends Controller
 
         return view('home', compact('campaign', 'coupon'));
     }
+
+    public function vipIndex($code)
+    {
+        $campaign = Campaign::where('active', true)
+            ->where('is_vip', true)
+            ->where('vip_code', $code)
+            ->firstOrFail();
+
+        try {
+            $coupon = Coupon::find(session('couponId'));
+        } catch(\Exception $e) {}
+
+        return view('home', compact('campaign', 'coupon'));
+    }
 }

@@ -50,4 +50,11 @@ class CampaignFactory extends Factory
             ];
         });
     }
+
+    public function vip()
+    {
+        return $this->state(function($attributes) {
+            return ['is_vip' => true];
+        });
+    }
 }

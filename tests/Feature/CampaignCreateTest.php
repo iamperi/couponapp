@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Constants;
+use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -350,7 +351,6 @@ class CampaignCreateTest extends TestCase
         ]);
     }
 
-
     /**
      * @test
      */
@@ -363,6 +363,30 @@ class CampaignCreateTest extends TestCase
         ]));
 
         $response->assertSessionHasErrorsIn('coupon_extra_text');
+    }
+
+    /**
+     * @test
+     */
+    public function can_not_create_two_vip_campaigns_with_the_same_code()
+    {
+        $user = $this->getAdminUser();
+
+        $code = Campaign::getVipCode();
+        $campaign = Campaign::factory()->vip()->create([
+            'vip_code' => $code
+        ]);
+
+        $response = $this->actingAs($user)->post($this->storeRoute, $data = $this->getCampaignData([
+            'name' => 'Duplicate vip',
+            'is_vip' => true,
+            'vip_code' => $code
+        ]));
+
+        $this->assertDatabaseMissing('campaigns', [
+            'name' => 'Duplicate vip',
+            'vip_code' => $code,
+        ]);
     }
 
     private function getCampaignData($data = [])

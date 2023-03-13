@@ -34,6 +34,8 @@ class CouponController extends Controller
 
         $coupon = $user->assignCoupon($campaign);
 
+        $redirectionUrl = $campaign->getUrl();
+
         if($coupon) {
             try {
                 PDF::loadView('coupon', compact('coupon'))
@@ -43,17 +45,17 @@ class CouponController extends Controller
 
                 unlink($coupon->getPdfPath());
 
-                return redirect(route('home'))->with('couponId', $coupon->id);
+                return redirect($redirectionUrl)->with('couponId', $coupon->id);
             } catch(\Exception $e) {
                 if($coupon) {
                     $coupon->unassign();
                 }
                 logger()->info($e);
-                return redirect(route('home'))->with('error', __('Sorry... We could not get you a coupon, try again later'));
+                return redirect($redirectionUrl)->with('error', __('Sorry... We could not get you a coupon, try again later'));
             }
         }
 
-        return redirect(route('home'))->with('error', __('Sorry... There are no coupons left for this campaign'));
+        return redirect($redirectionUrl)->with('error', __('Sorry... There are no coupons left for this campaign'));
     }
 
     public function downloadPdf(Coupon $coupon)

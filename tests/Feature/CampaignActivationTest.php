@@ -67,7 +67,7 @@ class CampaignActivationTest extends TestCase
     /**
      * @test
      */
-    public function only_one_campaign_can_be_active_at_a_time()
+    public function only_one_non_vip_campaign_can_be_active_at_a_time()
     {
         $campaign1 = Campaign::factory()->create(['active' => true]);
         $campaign2 = Campaign::factory()->create();
@@ -76,6 +76,34 @@ class CampaignActivationTest extends TestCase
 
         $this->assertFalse($campaign1->fresh()->active);
         $this->assertTrue($campaign2->fresh()->active);
+    }
+
+       /**
+     * @test
+     */
+    public function only_one_vip_campaign_can_be_active_at_a_time()
+    {
+        $campaign1 = Campaign::factory()->vip()->create(['active' => true]);
+        $campaign2 = Campaign::factory()->vip()->create();
+
+        $this->actingAs($this->getAdminUser())->post($this->getPostRoute($campaign2));
+
+        $this->assertFalse($campaign1->fresh()->active);
+        $this->assertTrue($campaign2->fresh()->active);
+    }
+
+    /**
+     * @test
+     */
+    public function can_activate_vip_campaign_when_a_non_vip_campaign_is_active()
+    {
+        $normalCampaign = Campaign::factory()->create(['active' => true]);
+        $vipCampaign = Campaign::factory()->vip()->create();
+
+        $this->actingAs($this->getAdminUser())->post($this->getPostRoute($vipCampaign));
+
+        $this->assertTrue($normalCampaign->fresh()->active);
+        $this->assertTrue($vipCampaign->fresh()->active);
     }
 
     private function getPostRoute($campaign)

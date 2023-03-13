@@ -44,7 +44,7 @@ class CouponRequestTest extends TestCase
      */
     public function a_user_can_request_a_coupon()
     {
-    //    $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         Campaign::factory()->create();
 
@@ -257,7 +257,7 @@ class CouponRequestTest extends TestCase
 
         $coupon = $user->coupons->first();
 
-        $this->assertEquals(Carbon::now()->addHours($campaign->coupon_validity)->format('Y-m-d H:i:s'), $coupon->expires_at);
+        $this->assertEquals(Carbon::now()->addHours($campaign->coupon_validity)->format('Y-m-d H:i:s'), $coupon->expires_at->format('Y-m-d H:i:s'));
     }
 
     /**
@@ -269,7 +269,7 @@ class CouponRequestTest extends TestCase
 
         $data = $this->getUserData([
             'name' => 'jose antOnio',
-            'last_name' => 'López de mendiguren '
+            'last_name' => 'Lopez de mendiguren '
         ]);
 
         $this->post($this->postRoute, $data);
@@ -277,7 +277,7 @@ class CouponRequestTest extends TestCase
         $user = User::where('dni', $data['dni'])->first();
 
         $this->assertEquals('Jose Antonio', $user->name);
-        $this->assertEquals('López De Mendiguren', $user->last_name);
+        $this->assertEquals('Lopez De Mendiguren', $user->last_name);
     }
 
     /**
