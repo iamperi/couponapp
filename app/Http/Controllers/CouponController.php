@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GetCouponRequest;
-use App\Mail\CouponRequested;
-use App\Models\Campaign;
-use App\Models\Coupon;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade as PDF;
+use App\Models\Coupon;
+use App\Models\Campaign;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\CouponRequested;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\GetCouponRequest;
 
 class CouponController extends Controller
 {
@@ -38,7 +38,7 @@ class CouponController extends Controller
 
         if($coupon) {
             try {
-                PDF::loadView('coupon', compact('coupon'))
+                Pdf::loadView('coupon', compact('coupon'))
                     ->save($coupon->getPdfPath());
 
                 Mail::to($user)->send(new CouponRequested($coupon, $user));
@@ -61,7 +61,7 @@ class CouponController extends Controller
     public function downloadPdf(Coupon $coupon)
     {
 //        return view('coupon', compact('coupon'));
-        $pdf = PDF::loadView('coupon', compact('coupon'));
+        $pdf = Pdf::loadView('coupon', compact('coupon'));
 
         return $pdf->download('tu-cupon.pdf');
     }

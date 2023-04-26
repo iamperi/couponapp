@@ -1,0 +1,10 @@
+{
+    "oxygen mono": {
+        "normal": "\/Users\/pieldefoca\/Sites\/Laravel\/couponapp-update\/storage\/fonts\/\/oxygen_mono_normal_b2acd1b9be4e8d3e179ba1d9f52c5a2f"
+    },
+    "nunito": {
+        "normal": "\/Users\/pieldefoca\/Sites\/Laravel\/couponapp-update\/storage\/fonts\/\/nunito_normal_f8ce9593f0c56e52776379aa29b2d690",
+        "600": "\/Users\/pieldefoca\/Sites\/Laravel\/couponapp-update\/storage\/fonts\/\/nunito_600_0275befc5ca0fc822c590fc63a6c14d5",
+        "bold": "\/Users\/pieldefoca\/Sites\/Laravel\/couponapp-update\/storage\/fonts\/\/nunito_bold_8dc3583b65bede23262ac4c563179f23"
+    }
+}

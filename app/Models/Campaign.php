@@ -21,9 +21,9 @@ class Campaign extends Model
         'coupon_validity' => 'integer',
         'limit_per_person' => 'integer',
         'is_vip' => 'boolean',
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
     ];
-
-    protected $dates = ['starts_at', 'ends_at'];
 
     protected $dispatchesEvents = [
         'created' => CampaignCreated::class

@@ -1,7 +1,7 @@
 <div class="relative inline-flex items-center justify-end cursor-pointer"
      x-data="{ open: false }"
      @click="open = true"
-     @click.away="open = false"
+     @click.outside="open = false"
 >
     @php($userName = auth()->user()->full_name)
     <label class="mr-2 cursor-pointer">{{ $userName }}</label>

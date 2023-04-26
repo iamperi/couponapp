@@ -9,15 +9,15 @@
             <td data-field="amount">@lang('Amount')</td>
             <td data-field="used_at">@lang('Used at')</td>
             <td data-field="name">
-                <div class="flex items-center relative" x-data="{ show: false }">
+                <div x-data="{ show: false }" class="flex items-center relative">
                     <label>@lang('Status')</label>
                     @admin
                     <img src="{{ asset('img/icons/help.svg') }}"
                          class="w-5 ml-2 cursor-pointer"
                          @click.prevent.stop="show = !show"
-                         @click.away="show = false">
+                         @click.outside="show = false">
                     @endadmin
-                    <div class="absolute w-32 rounded bg-white shadow-lg mt-24 p-2" x-show="show">
+                    <div x-show="show" class="absolute w-32 rounded bg-white shadow-lg mt-24 p-2">
                         <label class="text-xs normal-case">@lang('Inline mark as payed')</label>
                     </div>
                 </div>

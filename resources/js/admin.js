@@ -1,8 +1,12 @@
 require('./bootstrap');
 
-require('alpinejs');
+import Alpine from 'alpinejs'
 import flatpickr from "flatpickr";
 import { Spanish } from "flatpickr/dist/l10n/es.js";
+
+window.Alpine = Alpine
+
+Alpine.start()
 
 const dateInputOptions = {
     locale: Spanish,

@@ -17,7 +17,11 @@ class Coupon extends Model
 
     protected $guarded = [];
 
-    protected $dates = ['payed_at', 'used_at', 'expires_at'];
+    protected $casts = [
+        'payed_at' => 'datetime',
+        'used_at' => 'datetime',
+        'expires_at' => 'datetime',
+    ];
 
     public function campaign()
     {

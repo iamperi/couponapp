@@ -111,7 +111,6 @@
                         filters.order_by = orderBy;
                         filters.order_asc = true;
                     }
-                    console.log(filters)
 
                     refreshTable();
                 });
@@ -150,4 +149,3 @@
     </script>
     @endpush
 </x-admin-layout>
-
