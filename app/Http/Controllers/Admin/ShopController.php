@@ -63,7 +63,11 @@ class ShopController extends Controller
 
             $shop->user()->associate($shopUser);
 
-            $shop->sendRegistrationEmail();
+            try {
+                $shop->sendRegistrationEmail();
+            } catch(\Exception $e) {
+                return redirect(route('admin.shops.index'))->with('error', __('Error sending registration email'));
+            }
         }
 
         return redirect(route('admin.shops.index'))->with('success', __('Shop created successfully'));

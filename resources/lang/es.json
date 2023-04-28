@@ -42,7 +42,7 @@
     "Ends at": "Termina el",
     "Email Password Reset Link": "Enviar enlace",
     "Enter coupon code": "Introduce el código del cupón",
-    "Error sending registration email": "Error al enviar el correo",
+    "Error sending registration email": "Se ha creado la tienda pero ha ocurrido algún error al enviar el correo de registro",
     "Fields marked with * are required": "Los campos marcados con * son obligatorios",
     "Filters": "Filtros",
     "Forgot your password?": "Olvidé la contraseña",
