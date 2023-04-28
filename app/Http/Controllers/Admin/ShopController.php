@@ -66,14 +66,17 @@ class ShopController extends Controller
             $shop->sendRegistrationEmail();
         }
 
-
         return redirect(route('admin.shops.index'))->with('success', __('Shop created successfully'));
     }
 
     public function sendRegistrationEmail(Shop $shop)
     {
-        $shop->resendRegistrationEmail();
+        try {
+            $shop->resendRegistrationEmail();
 
-        return redirect(route('admin.shops.index'))->with('success', __('Registration email forwarded correctly'));
+            return redirect(route('admin.shops.index'))->with('success', __('Registration email forwarded correctly'));
+        } catch(\Exception $e) {
+            return redirect(route('admin.shops.index'))->with('error', __('Error sending registration email'));
+        }
     }
 }
