@@ -77,6 +77,11 @@ class Campaign extends Model
         return $query->whereNull('ends_at')->orWhere('ends_at', '>=', Carbon::now());
     }
 
+    public function scopeFinished($query)
+    {
+        return $query->whereNotNull('ends_at')->orWhere('ends_at', '<', Carbon::now());
+    }
+
     public function isActive()
     {
         if(is_null($this->ends_at) || $this->ends_at >= Carbon::now()) {

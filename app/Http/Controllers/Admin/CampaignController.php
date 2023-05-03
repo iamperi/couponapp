@@ -13,8 +13,9 @@ class CampaignController extends Controller
     public function index()
     {
         $activeCampaigns = Campaign::notFinished()->get();
+        $oldCampaigns = Campaign::finished()->limit(5)->get();
         $vipCode = Campaign::getVipCode();
-        return view('admin.campaigns.index', compact('activeCampaigns', 'vipCode'));
+        return view('admin.campaigns.index', compact('activeCampaigns', 'oldCampaigns', 'vipCode'));
     }
 
     public function store(StoreCampaignRequest $request)
