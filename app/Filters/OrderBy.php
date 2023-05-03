@@ -7,6 +7,7 @@ class OrderBy extends Filter
     protected function applyFilter($builder)
     {
         $filterName = $this->filterName();
+
         $orderBy = request($this->filterName());
 
         if(str_contains($filterName, '.')) {

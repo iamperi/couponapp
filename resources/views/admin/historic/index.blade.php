@@ -47,8 +47,8 @@
             search: '',
             shop: '',
             campaign: '',
-            order_by: 'code',
-            order_asc: true,
+            order_by: 'used_at',
+            order_asc: false,
             page: 1,
             per_page: 25
         };
