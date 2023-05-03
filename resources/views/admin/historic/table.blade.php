@@ -8,7 +8,7 @@
             <td data-field="campaign.name">@lang('Campaign')</td>
             <td data-field="amount">@lang('Amount')</td>
             <td data-field="used_at">@lang('Used at')</td>
-            <td data-field="name">
+            <td data-field="name" class="w-36">
                 <div x-data="{ show: false }" class="flex items-center relative">
                     <label>@lang('Status')</label>
                     @admin
