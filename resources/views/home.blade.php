@@ -57,7 +57,7 @@
                 <input type="hidden" name="campaign_id" value="{{ $campaign->id }}">
                 <div class="flex flex-col">
                     <label for="name" class="text-sm">@lang('Name') *</label>
-                    <input type="text" name="name" class="rounded-lg py-1 px-2 border border-transparent outline-none focus:border-red-700" value="{{ old('name') }}">
+                    <input type="text" name="name" class="rounded-lg py-1 px-2 border border-transparent outline-none focus:border-mostoles" value="{{ old('name') }}">
                     @error('name')
                     <span class="text-xs text-red-400">{{ $message }}</span>
                     @enderror
@@ -65,7 +65,7 @@
 
                 <div class="flex flex-col">
                     <label for="last_name" class="text-sm">@lang('Last name') *</label>
-                    <input type="text" name="last_name" class="rounded-lg py-1 px-2 border border-transparent outline-none focus:border-red-700" value="{{ old('last_name') }}">
+                    <input type="text" name="last_name" class="rounded-lg py-1 px-2 border border-transparent outline-none focus:border-mostoles" value="{{ old('last_name') }}">
                     @error('last_name')
                     <span class="text-xs text-red-400">{{ $message }}</span>
                     @enderror
@@ -75,7 +75,7 @@
                     <label for="dni" class="text-sm">@lang('D.N.I.') *</label>
                     <input type="text"
                            name="dni"
-                           class="rounded-lg py-1 px-2 uppercase border border-transparent outline-none focus:border-red-700"
+                           class="rounded-lg py-1 px-2 uppercase border border-transparent outline-none focus:border-mostoles"
                            value="{{ old('dni') }}"
                            maxlength="9"
                            @keyup="$event.target.value = $event.target.value.toUpperCase()"
@@ -91,7 +91,7 @@
                     <label for="phone" class="text-sm">@lang('Phone') *</label>
                     <input type="text"
                            name="phone"
-                           class="rounded-lg py-1 px-2 border border-transparent outline-none focus:border-red-700"
+                           class="rounded-lg py-1 px-2 border border-transparent outline-none focus:border-mostoles"
                            value="{{ old('phone') }}"
                            maxlength="9"
                     >
@@ -104,7 +104,7 @@
 
                 <div class="flex flex-col">
                     <label for="email" class="text-sm">@lang('Email') *</label>
-                    <input type="text" name="email" class="rounded-lg py-1 px-2 border border-transparent outline-none focus:border-red-700" value="{{ old('email') }}">
+                    <input type="text" name="email" class="rounded-lg py-1 px-2 border border-transparent outline-none focus:border-mostoles" value="{{ old('email') }}">
                     @error('email')
                     <span class="text-xs text-red-400">{{ $message }}</span>
                     @else
@@ -113,7 +113,7 @@
                 </div>
 
                 <div class="flex flex-col justify-end">
-                    <button class="bg-red-700 rounded-lg text-white w-full px-2 py-1.5 mb-4">@lang('Get coupon')</button>
+                    <button class="bg-mostoles rounded-lg text-white w-full px-2 py-1.5 mb-4">@lang('Get coupon')</button>
                 </div>
 
                 <div>

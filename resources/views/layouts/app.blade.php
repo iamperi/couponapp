@@ -19,7 +19,7 @@
     </head>
     <body class="font-sans antialiased overflow-x-hidden">
         <div class="flex flex-col min-h-screen bg-gray-100">
-            <header class="relative flex items-center justify-between w-screen h-20 bg-red-700 px-12 sm:px-20"
+            <header class="relative flex items-center justify-between w-screen h-20 bg-mostoles px-12 sm:px-20"
                     x-data="{mobileMenuOpen: false}"
             >
                 <a href="https://mostoleapp.com">
@@ -47,7 +47,7 @@
                 <div class="block md:hidden" @click="mobileMenuOpen = !mobileMenuOpen">
                     <img src="{{ asset('img/icons/notes-white.svg') }}" class="w-8 cursor-pointer">
                 </div>
-                <nav class="block md:hidden absolute w-full bg-red-700 top-0 left-0 mt-20 py-4 border-t-2 border-red-800 shadow-lg"
+                <nav class="block md:hidden absolute w-full bg-mostoles top-0 left-0 mt-20 py-4 border-t-2 border-red-800 shadow-lg"
                      x-show="mobileMenuOpen">
                     <ul class="flex flex-col list-none">
                         <li class="text-white text-lg no-underline ml-6 py-2">
@@ -72,25 +72,20 @@
                 {{ $slot }}
             </main>
 
-            <footer class="mt-4 w-full text-white">
-                <div class="flex flex-col md:flex-row px-0 py-12 md:p-12 bg-red-700">
+            <footer class="mt-4 w-full text-footer-text">
+                <div class="flex flex-col md:flex-row px-0 py-12 md:p-12 bg-footer-bg">
                     <div class="w-full md:w-2/5 px-8">
                         <div>
-                            <img src="{{ asset('img/logo-blanco.png') }}" alt="Logo Móstoles" class="h-6" />
+                            <img src="{{ asset('img/logo-gris.png') }}" alt="Logo Móstoles" class="h-10" />
                         </div>
                         <p class="mt-4 text-xs">
-                            Nuestro propósito es dar a conocer al pequeño comerciante de la ciudad de Móstoles. Descubrirás que tienes de
-                            todo cerca de tu hogar sin necesidad de desplazarte. ¡Anímate a explorar y aprovecha las promociones
-                            disponibles!
+                            Nuestro propósito es dar a conocer al pequeño comerciante de la ciudad de Móstoles.
                         </p>
                         <p class="mt-4 text-xs">
                             MóstoleApp ha sido promovido por Móstoles Desarrollo.
                         </p>
-                        <p>
-                            Para más información: 916 85 30 90 / info@mostoleapp.com
-                        </p>
                     </div>
-                    <div class="flex w-full md:w-3/5 px-8 mt-8 md:mt-0">
+                    {{-- <div class="flex w-full md:w-3/5 px-8 mt-8 md:mt-0">
                         <div class="flex flex-col w-1/2 mr-4">
                             <h6 class="text-sm font-normal mb-4">INFORMACIÓN</h6>
                             <a href="https://mostoleapp.com/como-instalar-nuestra-app/" class="mb-2 text-sm">Cómo instalar nuestra App PWA</a>
@@ -108,7 +103,7 @@
                             <a href="https://mostoleapp.com/soy-comerciante/" class="mb-2 text-sm">¿Cómo puedo dar de alta mi negocio en la App?</a>
                         </div>
 
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="flex flex-wrap w-full bg-gray-900 text-blue-100 px-8 py-6">
