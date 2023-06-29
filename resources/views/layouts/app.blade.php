@@ -80,13 +80,16 @@
                             <img src="{{ asset('img/logo-gris.png') }}" alt="Logo Móstoles" class="h-10" />
                         </div>
                         <p class="mt-4 text-xs">
-                            Nuestro propósito es dar a conocer al pequeño comerciante de la ciudad de Móstoles.
+                            Nuestro propósito es dar a conocer al pequeño comerciante de la ciudad de Móstoles. Descubrirás que tienes de todo cerca de tu hogar sin necesidad de desplazarte. ¡Anímate a explorar y aprovecha las promociones disponibles!
                         </p>
                         <p class="mt-4 text-xs">
                             MóstoleApp ha sido promovido por Móstoles Desarrollo.
                         </p>
+                        <p class="mt-4 text-sm">
+                            Para más información: 916 85 30 90 / info@mostoleapp.com
+                        </p>
                     </div>
-                    {{-- <div class="flex w-full md:w-3/5 px-8 mt-8 md:mt-0">
+                    <div class="flex w-full md:w-3/5 px-8 mt-8 md:mt-0">
                         <div class="flex flex-col w-1/2 mr-4">
                             <h6 class="text-sm font-normal mb-4">INFORMACIÓN</h6>
                             <a href="https://mostoleapp.com/como-instalar-nuestra-app/" class="mb-2 text-sm">Cómo instalar nuestra App PWA</a>
@@ -104,7 +107,7 @@
                             <a href="https://mostoleapp.com/soy-comerciante/" class="mb-2 text-sm">¿Cómo puedo dar de alta mi negocio en la App?</a>
                         </div>
 
-                    </div> --}}
+                    </div>
                 </div>
 
                 <div class="flex flex-wrap w-full bg-gray-900 text-blue-100 px-8 py-6">
